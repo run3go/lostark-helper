@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 const port = 5000;
-const { User } = require("./models/User");
+
+const cookieParser = require("cookie-parser");
 
 const config = require("./config/key");
 
@@ -16,6 +17,9 @@ const connect = mongoose
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+app.use("/api/users", require("./routes/users"));
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
