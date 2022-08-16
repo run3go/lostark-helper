@@ -40,6 +40,15 @@ router.post("/login", (req, res) => {
   });
 });
 
+router.get("/auth", auth, (req, res) => {
+  res.status(200).json({
+    _id: req.user_id,
+    isAuth: true,
+    email: req.user.email,
+    isAdmin: req.user.role === 0 ? false : true,
+  });
+});
+
 router.get("/logout", auth, (req, res) => {
   User.findOneAndUpdate(
     { _id: req.user._id },
@@ -49,15 +58,6 @@ router.get("/logout", auth, (req, res) => {
       res.status(200).json({ success: true });
     }
   );
-});
-
-router.get("/auth", auth, (req, res) => {
-  res.status(200).json({
-    _id: req.user_id,
-    isAuth: true,
-    email: req.user.email,
-    isAdmin: req.user.role === 0 ? false : true,
-  });
 });
 
 module.exports = router;
