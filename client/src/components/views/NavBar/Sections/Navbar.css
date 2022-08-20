@@ -1,0 +1,58 @@
+.menu {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  border-bottom: 1px #999 solid;
+}
+
+.menu .text_link {
+  font-weight: bold;
+  position: relative;
+  color: skyblue;
+  -webkit-transition: all ease 0.3s;
+  transition: all ease 0.3s;
+}
+
+.menu .text_link:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  -webkit-transition: all ease 0.3s;
+  transition: all ease 0.3s;
+  background: blue;
+}
+
+.menu .text_link:hover {
+  color: blue;
+}
+
+.menu .text_link:hover:before {
+  width: 100%;
+}
+
+.menu .menu_left {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.menu .menu_left .menu_logo {
+  padding: 20px;
+}
+
+.menu .menu_right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.menu .menu_item {
+  padding: 20px;
+}
+/*# sourceMappingURL=Navbar.css.map */

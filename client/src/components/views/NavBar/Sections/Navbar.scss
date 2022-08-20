@@ -1,0 +1,46 @@
+.menu {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px #999 solid;
+
+  .text_link {
+    font-weight: bold;
+    position: relative;
+    color: skyblue;
+    transition: all ease 0.3s;
+
+    &:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      transition: all ease 0.3s;
+      background: blue;
+    }
+    &:hover {
+      color: blue;
+
+      &:before {
+        width: 100%;
+      }
+    }
+  }
+
+  .menu_left {
+    display: flex;
+
+    .menu_logo {
+      padding: 20px;
+    }
+  }
+
+  .menu_right {
+    display: flex;
+  }
+
+  .menu_item {
+    padding: 20px;
+  }
+}
