@@ -1,0 +1,104 @@
+.container {
+  padding: 3rem;
+  margin: 0 auto;
+  width: 17rem;
+  height: 30rem;
+}
+
+.container h1 {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: blue;
+  font-weight: bold;
+  text-align: center;
+}
+
+.container .form_box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.container .form_box .input_box {
+  position: relative;
+  margin-top: 3rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+
+.container .form_box .input_box .input_txt {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.7rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.3);
+  -webkit-transition: all ease 0.3s;
+  transition: all ease 0.3s;
+  pointer-events: none;
+}
+
+.container .form_box .input_box:focus-within .input_txt,
+.container .form_box .input_box .focus_out {
+  top: -1.6rem;
+  left: -0.1rem;
+  font-size: 0.8rem;
+  color: blue;
+}
+
+.container .form_box .input_box .input_field {
+  border: none;
+  width: 85%;
+  padding: 0.7rem;
+}
+
+.container .form_box .input_box .input_field:focus {
+  outline: none;
+}
+
+.container .form_box .input_box .icon {
+  position: absolute;
+  top: 50%;
+  right: 0.8rem;
+  -webkit-transform: translateY(-50%) scale(1.2);
+          transform: translateY(-50%) scale(1.2);
+}
+
+.container .form_box .input_box .icon.unchecked {
+  color: red;
+}
+
+.container .form_box .input_box .icon.checked {
+  color: green;
+}
+
+.container .form_box .req_msg {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.container .form_box .req_msg.success {
+  color: blue;
+}
+
+.container .form_box .req_msg.false {
+  color: red;
+}
+
+.container .form_box .button_submit {
+  margin: 3rem auto;
+  padding: 0.5rem 0;
+  border: none;
+  border-radius: 5px;
+  width: 60%;
+  font-weight: bold;
+  color: #fff;
+  background: blue;
+}
+/*# sourceMappingURL=RegisterPage.css.map */

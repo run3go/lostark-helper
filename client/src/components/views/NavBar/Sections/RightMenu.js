@@ -5,10 +5,10 @@ function RightMenu() {
   return (
     <div className="menu_right">
       <Link className="text_link menu_item" to="/login">
-        Sign in
+        Signin
       </Link>
       <Link className="text_link menu_item" to="/register">
-        Sign up
+        Signup
       </Link>
     </div>
   );

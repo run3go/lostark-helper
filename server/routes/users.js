@@ -16,6 +16,14 @@ router.post("/register", (req, res) => {
   });
 });
 
+router.post("/checkEmail", (req, res) => {
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if (!user)
+      return res.json({ success: true, message: "사용 가능한 이메일입니다" });
+    res.json({ message: "이미 사용 중인 이메일입니다" });
+  });
+});
+
 router.post("/login", (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
     if (!user)

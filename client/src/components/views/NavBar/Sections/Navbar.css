@@ -8,10 +8,14 @@
   border-bottom: 1px #999 solid;
 }
 
+.menu .menu_logo {
+  color: blue;
+  margin-right: 4rem;
+}
+
 .menu .text_link {
-  font-weight: bold;
   position: relative;
-  color: skyblue;
+  color: rgba(0, 0, 0, 0.5);
   -webkit-transition: all ease 0.3s;
   transition: all ease 0.3s;
 }
@@ -21,8 +25,8 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 0;
-  height: 2px;
+  width: 100%;
+  height: 0;
   -webkit-transition: all ease 0.3s;
   transition: all ease 0.3s;
   background: blue;
@@ -33,7 +37,7 @@
 }
 
 .menu .text_link:hover:before {
-  width: 100%;
+  height: 2px;
 }
 
 .menu .menu_left {
