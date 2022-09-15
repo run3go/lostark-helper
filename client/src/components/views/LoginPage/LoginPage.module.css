@@ -1,12 +1,11 @@
 .container {
   padding: 3rem;
   margin: 0 auto;
-  width: 17rem;
+  width: 15rem;
   height: 30rem;
 }
 
 .container h1 {
-  margin-bottom: 2rem;
   font-size: 2rem;
   color: blue;
   font-weight: bold;
@@ -25,17 +24,18 @@
 
 .container .form_box .input_box {
   position: relative;
-  margin-top: 3rem;
+  margin-top: 3.5rem;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  border: 2px solid rgba(0, 0, 0, 0.3);
+  border: none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
 }
 
 .container .form_box .input_box .input_txt {
   position: absolute;
-  top: 0.7rem;
-  left: 0.7rem;
+  bottom: 0.5rem;
+  left: 0.3rem;
   font-size: 1rem;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.3);
@@ -46,8 +46,8 @@
 
 .container .form_box .input_box:focus-within .input_txt,
 .container .form_box .input_box .focus_out {
-  top: -1.6rem;
-  left: -0.1rem;
+  top: -0.4rem;
+  left: 0.2rem;
   font-size: 0.8rem;
   color: blue;
 }
@@ -55,7 +55,7 @@
 .container .form_box .input_box .input_field {
   border: none;
   width: 85%;
-  padding: 0.7rem;
+  padding: 1rem 0 0.5rem 0.3rem;
 }
 
 .container .form_box .input_box .input_field:focus {
@@ -79,26 +79,47 @@
 }
 
 .container .form_box .req_msg {
+  position: absolute;
+  bottom: -1.5rem;
+  left: 0;
   margin-top: 0.5rem;
+  width: 21rem;
   font-size: 0.8rem;
 }
 
 .container .form_box .req_msg.success {
-  color: blue;
+  color: green;
 }
 
 .container .form_box .req_msg.false {
   color: red;
 }
 
-.container .form_box .button_submit {
-  margin: 3rem auto;
-  padding: 0.5rem 0;
-  border: none;
-  border-radius: 5px;
-  width: 60%;
-  font-weight: bold;
+.container .form_box .checkEmail_button {
+  position: absolute;
+  top: 50%;
+  right: -4.5rem;
+  width: 4rem;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
   color: #fff;
   background: blue;
 }
-/*# sourceMappingURL=RegisterPage.css.map */
+
+.container .form_box .checkEmail_button:disabled {
+  background: #d3d3d3;
+}
+
+.container .form_box .button_submit {
+  margin: 3rem auto;
+  width: 60%;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #fff;
+  background: blue;
+}
+
+.container .form_box .button_submit:disabled {
+  background: #d3d3d3;
+}
+/*# sourceMappingURL=LoginPage.module.css.map */

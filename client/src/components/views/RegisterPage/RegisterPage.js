@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FaTimesCircle, FaCheckCircle } from "react-icons/fa";
 import { registerUser } from "../../../_actions/user_actions";
 import { USER_SERVER } from "../../Config";
-import "./RegisterPage.scss";
+import styles from "./RegisterPage.module.scss";
 import axios from "axios";
 
 function RegisterPage() {
@@ -76,9 +76,9 @@ function RegisterPage() {
     }
 
     if (req) {
-      return <FaCheckCircle className="checked icon" />;
+      return <FaCheckCircle className={`${styles.checked} ${styles.icon}`} />;
     } else {
-      return <FaTimesCircle className="unchecked icon" />;
+      return <FaTimesCircle className={`${styles.unchecked} ${styles.icon}`} />;
     }
   };
 
@@ -117,52 +117,74 @@ function RegisterPage() {
   };
 
   return (
-    <div className="container">
+    <div className={styles.container}>
       <h1>Register</h1>
-      <form className="form_box">
-        <div className="input_box">
-          <span className={`input_txt ${Email ? "focus_out" : null}`}>
+      <form className={styles.form_box}>
+        <div className={styles.input_box}>
+          <span
+            className={`${styles.input_txt} ${Email ? styles.focus_out : null}`}
+          >
             이메일
           </span>
           <input
-            className="input_field"
+            className={styles.input_field}
             id="email"
             type="email"
             value={Email}
             onChange={onChangeEmail}
           />
           {checkRequirement(IsEmail, Email)}
-          <span className={`req_msg ${IsEmail ? "success" : "false"}`}>
+          <span
+            className={`${styles.req_msg} ${
+              IsEmail ? styles.success : styles.false
+            }`}
+          >
             {EmailMessage}
           </span>
-          <button className="checkEmail_button" onClick={handleCheckEmail}>
+          <button
+            className={styles.checkEmail_button}
+            onClick={handleCheckEmail}
+            disabled={!IsEmail}
+          >
             중복확인
           </button>
         </div>
 
-        <div className="input_box">
-          <span className={`input_txt ${Password ? "focus_out" : null}`}>
+        <div className={styles.input_box}>
+          <span
+            className={`${styles.input_txt} ${
+              Password ? styles.focus_out : null
+            }`}
+          >
             비밀번호
           </span>
           <input
-            className="input_field"
+            className={styles.input_field}
             id="password"
             type="password"
             value={Password}
             onChange={onChangePassword}
           />
           {checkRequirement(IsPassword, Password)}
-          <span className={`req_msg ${IsPassword ? "success" : "false"}`}>
+          <span
+            className={`${styles.req_msg} ${
+              IsPassword ? styles.success : styles.false
+            }`}
+          >
             {PasswordMessage}
           </span>
         </div>
 
-        <div className="input_box">
-          <span className={`input_txt ${PasswordConfirm ? "focus_out" : null}`}>
+        <div className={styles.input_box}>
+          <span
+            className={`${styles.input_txt} ${
+              PasswordConfirm ? styles.focus_out : null
+            }`}
+          >
             비밀번호 확인
           </span>
           <input
-            className="input_field"
+            className={styles.input_field}
             id="passwordConfirm"
             type="password"
             value={PasswordConfirm}
@@ -170,14 +192,16 @@ function RegisterPage() {
           />
           {checkRequirement(IsPasswordConfirm, PasswordConfirm)}
           <span
-            className={`req_msg ${IsPasswordConfirm ? "success" : "false"}`}
+            className={`${styles.req_msg} ${
+              IsPasswordConfirm ? styles.success : styles.false
+            }`}
           >
             {PasswordConfirmMessage}
           </span>
         </div>
 
         <button
-          className="button_submit"
+          className={styles.button_submit}
           onClick={handleSubmit}
           disabled={!(IsEmail && IsPassword && IsPasswordConfirm && CheckEmail)}
         >

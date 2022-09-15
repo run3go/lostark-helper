@@ -1,3 +1,14 @@
+@mixin btn-disabled($abledBackground, $disabledBackground, $color: #fff) {
+  color: $color;
+  background: $abledBackground;
+  cursor: pointer;
+
+  &:disabled {
+    background: $disabledBackground;
+    cursor: default;
+  }
+}
+
 .container {
   padding: 3rem;
   margin: 0 auto;
@@ -90,8 +101,8 @@
       right: -4.5rem;
       width: 4rem;
       transform: translateY(-50%);
-      color: #fff;
-      background: blue;
+
+      @include btn-disabled(blue, #d3d3d3);
     }
 
     .button_submit {
@@ -99,12 +110,8 @@
       width: 60%;
       font-weight: bold;
       font-size: 1.2rem;
-      color: #fff;
-      background: blue;
 
-      &:disabled {
-        background: #d3d3d3;
-      }
+      @include btn-disabled(blue, #d3d3d3);
     }
   }
 }
