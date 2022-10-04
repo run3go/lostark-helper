@@ -104,10 +104,12 @@
           transform: translateY(-50%);
   color: #fff;
   background: blue;
+  cursor: pointer;
 }
 
 .container .form_box .checkEmail_button:disabled {
   background: #d3d3d3;
+  cursor: default;
 }
 
 .container .form_box .button_submit {
@@ -117,9 +119,11 @@
   font-size: 1.2rem;
   color: #fff;
   background: blue;
+  cursor: pointer;
 }
 
 .container .form_box .button_submit:disabled {
   background: #d3d3d3;
+  cursor: default;
 }
 /*# sourceMappingURL=LoginPage.module.css.map */

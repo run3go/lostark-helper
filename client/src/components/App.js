@@ -9,7 +9,7 @@ import Footer from "./views/Footer/Footer";
 import LandingPage from "./views/LandingPage/LandingPage";
 import LoginPage from "./views/LoginPage/LoginPage";
 import RegisterPage from "./views/RegisterPage/RegisterPage";
-import NavBar from "./views/NavBar/NavBar";
+import TopBar from "./views/TopBar/TopBar";
 
 const GlobalStyle = createGlobalStyle`
 ${reset}
@@ -25,7 +25,7 @@ export default function App() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <GlobalStyle />
-      <NavBar />
+      <TopBar />
       <div style={{ paddingTop: "69px", minHeight: "calc(100vh - 80px)" }}>
         <Routes>
           <Route exact path="/" element={<AuthLandingPage />} />

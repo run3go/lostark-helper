@@ -1,9 +1,9 @@
 import React from "react";
 import LeftMenu from "./Sections/LeftMenu";
 import RightMenu from "./Sections/RightMenu";
-import "./Sections/Navbar.scss";
+import "./Sections/topbar.scss";
 
-function NavBar() {
+function TopBar() {
   return (
     <div className="menu">
       <LeftMenu />
@@ -12,4 +12,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default TopBar;

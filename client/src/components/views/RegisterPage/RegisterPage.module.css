@@ -7,7 +7,7 @@
 
 .container h1 {
   font-size: 2rem;
-  color: blue;
+  color: #76ba99;
   font-weight: bold;
   text-align: center;
 }
@@ -49,7 +49,7 @@
   top: -0.4rem;
   left: 0.2rem;
   font-size: 0.8rem;
-  color: blue;
+  color: #76ba99;
 }
 
 .container .form_box .input_box .input_field {
@@ -103,7 +103,7 @@
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
   color: #fff;
-  background: blue;
+  background: #2192ff;
   cursor: pointer;
 }
 
@@ -118,7 +118,7 @@
   font-weight: bold;
   font-size: 1.2rem;
   color: #fff;
-  background: blue;
+  background: #2192ff;
   cursor: pointer;
 }
 

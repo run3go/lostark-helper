@@ -9,6 +9,9 @@
   }
 }
 
+$color-main: #76ba99;
+$color-sub: #adcf9f;
+
 .container {
   padding: 3rem;
   margin: 0 auto;
@@ -17,7 +20,7 @@
 
   h1 {
     font-size: 2rem;
-    color: blue;
+    color: $color-main;
     font-weight: bold;
     text-align: center;
   }
@@ -50,7 +53,7 @@
         top: -0.4rem;
         left: 0.2rem;
         font-size: 0.8rem;
-        color: blue;
+        color: $color-main;
       }
 
       .input_field {
@@ -102,7 +105,7 @@
       width: 4rem;
       transform: translateY(-50%);
 
-      @include btn-disabled(blue, #d3d3d3);
+      @include btn-disabled(#2192ff, #d3d3d3);
     }
 
     .button_submit {
@@ -111,7 +114,7 @@
       font-weight: bold;
       font-size: 1.2rem;
 
-      @include btn-disabled(blue, #d3d3d3);
+      @include btn-disabled(#2192ff, #d3d3d3);
     }
   }
 }

@@ -1,0 +1,32 @@
+$color-main: #4e944f;
+$color-sub: rgba(131, 189, 117, 0.3);
+
+.menu {
+  padding: 0 40px;
+  background-color: $color-main;
+  display: flex;
+  justify-content: space-between;
+
+  .text_link {
+    position: relative;
+    margin: 12px 20px 12px 0;
+    padding: 6px 10px;
+    color: #fff;
+    font-size: 17px;
+    border-radius: 7px;
+    transition: all ease 0.3s;
+
+    &:hover {
+      background-color: $color-sub;
+    }
+
+    &:active {
+      background-color: $color-main;
+    }
+  }
+
+  .menu_left,
+  .menu_right {
+    display: flex;
+  }
+}

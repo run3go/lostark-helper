@@ -1,17 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 function LeftMenu() {
   return (
     <div className="menu_left">
-      <Link className="text_link" to="/">
-        <div className="menu_logo"> Logo </div>
+      <Link className="text_link menu_item" to="/">
+        <FontAwesomeIcon icon={faBars} />
+      </Link>
+      <Link className="menu_item text_link" to="/">
+        Lostark Helper
       </Link>
       <Link className="text_link menu_item" to="/">
-        Main1
-      </Link>
-      <Link className="text_link menu_item" to="/">
-        Main2
+        main2
       </Link>
     </div>
   );

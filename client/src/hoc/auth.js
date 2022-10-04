@@ -30,7 +30,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
           }
         }
       });
-    }, []);
+    }, [navigate, dispatch]);
 
     return <SpecificComponent {...props} user={user} />;
   }
