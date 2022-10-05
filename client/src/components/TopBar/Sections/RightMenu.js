@@ -2,7 +2,8 @@ import React from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { USER_SERVER } from "../../../Config";
+import { USER_SERVER } from "../../Config";
+import styles from "./topbar.module.scss";
 
 function RightMenu() {
   const navigate = useNavigate();
@@ -18,19 +19,26 @@ function RightMenu() {
   const user = useSelector((state) => state.user);
   if (user.userData && !user.userData.isAuth) {
     return (
-      <div className="menu_right">
-        <Link className="text_link menu_item" to="/login">
+      <div className={styles.menu_right}>
+        <Link className={`${styles.text_link} ${styles.menu_item}`} to="/login">
           Signin
         </Link>
-        <Link className="text_link menu_item" to="/register">
+        <Link
+          className={`${styles.text_link} ${styles.menu_item}`}
+          to="/register"
+        >
           Signup
         </Link>
       </div>
     );
   } else {
     return (
-      <div className="menu_right">
-        <Link onClick={logoutHandler} className="text_link menu_item" to="/">
+      <div className={styles.menu_right}>
+        <Link
+          onClick={logoutHandler}
+          className={`${styles.text_link} ${styles.menu_item}`}
+          to="/"
+        >
           Logout
         </Link>
       </div>

@@ -5,11 +5,11 @@ import reset from "styled-reset";
 
 import Auth from "../hoc/auth";
 
-import Footer from "./views/Footer/Footer";
-import LandingPage from "./views/LandingPage/LandingPage";
-import LoginPage from "./views/LoginPage/LoginPage";
-import RegisterPage from "./views/RegisterPage/RegisterPage";
-import TopBar from "./views/TopBar/TopBar";
+import TopBar from "./TopBar/TopBar";
+import Footer from "./Footer/Footer";
+import LandingPage from "../pages/LandingPage/LandingPage";
+import LoginPage from "../pages/LoginPage/LoginPage";
+import RegisterPage from "../pages/RegisterPage/RegisterPage";
 
 const GlobalStyle = createGlobalStyle`
 ${reset}

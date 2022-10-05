@@ -1,3 +1,5 @@
+@import "../../styles/common.scss";
+
 @mixin btn-disabled($abledBackground, $disabledBackground, $color: #fff) {
   color: $color;
   background: $abledBackground;
@@ -9,16 +11,14 @@
   }
 }
 
-$color-main: #76ba99;
-$color-sub: #adcf9f;
-
 .container {
   padding: 3rem;
   margin: 0 auto;
-  width: 15rem;
+  width: 20rem;
   height: 30rem;
 
   h1 {
+    display: block;
     font-size: 2rem;
     color: $color-main;
     font-weight: bold;
@@ -99,6 +99,7 @@ $color-sub: #adcf9f;
     }
 
     .checkEmail_button {
+      padding: 10px 0;
       position: absolute;
       top: 50%;
       right: -4.5rem;
@@ -109,7 +110,8 @@ $color-sub: #adcf9f;
     }
 
     .button_submit {
-      margin: 3rem auto;
+      padding: 8px 5px;
+      margin: 3.5rem auto;
       width: 60%;
       font-weight: bold;
       font-size: 1.2rem;
