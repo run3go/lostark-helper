@@ -20,25 +20,18 @@ function RightMenu() {
   if (user.userData && !user.userData.isAuth) {
     return (
       <div className={styles.menu_right}>
-        <Link className={`${styles.text_link} ${styles.menu_item}`} to="/login">
+        <Link className={`${styles.nav_btn}`} to="/login">
           Signin
         </Link>
-        <Link
-          className={`${styles.text_link} ${styles.menu_item}`}
-          to="/register"
-        >
+        <Link className={`${styles.nav_btn}`} to="/register">
           Signup
         </Link>
       </div>
     );
   } else {
     return (
-      <div className={styles.menu_right}>
-        <Link
-          onClick={logoutHandler}
-          className={`${styles.text_link} ${styles.menu_item}`}
-          to="/"
-        >
+      <div className={styles.header_right}>
+        <Link onClick={logoutHandler} className={`${styles.nav_btn}`} to="/">
           Logout
         </Link>
       </div>

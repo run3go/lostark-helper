@@ -6,6 +6,7 @@ import reset from "styled-reset";
 import Auth from "../hoc/auth";
 
 import TopBar from "./TopBar/TopBar";
+import SideBar from "./SideBar/SideBar";
 import Footer from "./Footer/Footer";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
@@ -26,14 +27,28 @@ export default function App() {
     <Suspense fallback={<div>Loading...</div>}>
       <GlobalStyle />
       <TopBar />
-      <div style={{ paddingTop: "69px", minHeight: "calc(100vh - 80px)" }}>
-        <Routes>
-          <Route exact path="/" element={<AuthLandingPage />} />
-          <Route exact path="/login" element={<AuthLoginPage />} />
-          <Route exact path="/register" element={<AuthRegisterPage />} />
-        </Routes>
+      <div style={{ display: "flex" }}>
+        <SideBar />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <div
+            style={{
+              minHeight: "calc(100vh - 80px)",
+            }}
+          >
+            <Routes>
+              <Route exact path="/" element={<AuthLandingPage />} />
+              <Route exact path="/login" element={<AuthLoginPage />} />
+              <Route exact path="/register" element={<AuthRegisterPage />} />
+            </Routes>
+          </div>
+          <Footer />
+        </div>
       </div>
-      <Footer />
     </Suspense>
   );
 }

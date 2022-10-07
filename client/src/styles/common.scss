@@ -1,4 +1,11 @@
 @charset "utf-8";
 
+//color
+
 $color-main: #4e944f;
 $color-sub: rgba(131, 189, 117, 0.3);
+
+//importing fontawesome styling files
+@import "../assets/scss/fontawesome.scss";
+@import "../assets/scss/solid.scss";
+@import "../assets/scss/regular.scss";

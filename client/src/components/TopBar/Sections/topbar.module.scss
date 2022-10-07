@@ -1,12 +1,17 @@
 @import "../../../styles/common.scss";
 
-.menu {
+.header {
   padding: 0 40px;
   background-color: $color-main;
   display: flex;
   justify-content: space-between;
 
-  .text_link {
+  .header_left,
+  .header_right {
+    display: flex;
+  }
+
+  .nav_btn {
     position: relative;
     margin: 12px 20px 12px 0;
     padding: 6px 10px;
@@ -22,10 +27,5 @@
     &:active {
       background-color: $color-main;
     }
-  }
-
-  .menu_left,
-  .menu_right {
-    display: flex;
   }
 }

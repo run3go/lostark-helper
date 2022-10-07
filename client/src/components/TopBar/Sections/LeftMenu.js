@@ -6,14 +6,14 @@ import styles from "./topbar.module.scss";
 
 function LeftMenu() {
   return (
-    <div className={styles.menu_left}>
-      <Link className={`${styles.text_link} ${styles.menu_item}`} to="/">
+    <div className={styles.header_left}>
+      <Link className={`${styles.nav_btn}`} to="/">
         <FontAwesomeIcon icon={faBars} />
       </Link>
-      <Link className={`${styles.text_link} ${styles.menu_item}`} to="/">
+      <Link className={`${styles.nav_btn}`} to="/">
         Lostark Helper
       </Link>
-      <Link className={`${styles.text_link} ${styles.menu_item}`} to="/">
+      <Link className={`${styles.nav_btn}`} to="/">
         main2
       </Link>
     </div>

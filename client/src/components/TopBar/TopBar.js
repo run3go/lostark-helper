@@ -5,7 +5,7 @@ import styles from "./Sections/topbar.module.scss";
 
 function TopBar() {
   return (
-    <div className={styles.menu}>
+    <div className={styles.header}>
       <LeftMenu />
       <RightMenu />
     </div>
