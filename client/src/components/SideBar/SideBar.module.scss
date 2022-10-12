@@ -11,9 +11,11 @@
 }
 
 .snb {
-  width: 18%;
+  overflow-x: hidden;
+  width: 0;
   padding-top: 50px;
   background-color: rgb(250, 250, 250);
+  transition: ease 0.2s;
 
   .snb_list {
     .snb_menu {
@@ -48,6 +50,7 @@
       a {
         display: block;
         height: 100%;
+        overflow: hidden;
       }
 
       span {

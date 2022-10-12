@@ -19,11 +19,11 @@ function RightMenu() {
   const user = useSelector((state) => state.user);
   if (user.userData && !user.userData.isAuth) {
     return (
-      <div className={styles.menu_right}>
-        <Link className={`${styles.nav_btn}`} to="/login">
+      <div className={styles.header_right}>
+        <Link className={`${styles.nav_menu}`} to="/login">
           Signin
         </Link>
-        <Link className={`${styles.nav_btn}`} to="/register">
+        <Link className={`${styles.nav_menu}`} to="/register">
           Signup
         </Link>
       </div>
@@ -31,7 +31,7 @@ function RightMenu() {
   } else {
     return (
       <div className={styles.header_right}>
-        <Link onClick={logoutHandler} className={`${styles.nav_btn}`} to="/">
+        <Link onClick={logoutHandler} className={`${styles.nav_menu}`} to="/">
           Logout
         </Link>
       </div>

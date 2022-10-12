@@ -1,12 +1,10 @@
-import React, { useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { forwardRef } from "react";
+import { Link } from "react-router-dom";
 import styles from "./SideBar.module.scss";
 
-function SideBar() {
-  const sideNavBar = useRef();
-  const navigate = useNavigate();
+const SideBar = React.forwardRef((props, ref) => {
   return (
-    <div className={styles.snb} ref={sideNavBar}>
+    <div className={styles.snb} ref={ref}>
       <ul className={styles.snb_list}>
         <li className={styles.snb_menu}>
           <Link to={"/"}>
@@ -31,6 +29,6 @@ function SideBar() {
       </ul>
     </div>
   );
-}
+});
 
 export default SideBar;

@@ -1,15 +1,15 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import LeftMenu from "./Sections/LeftMenu";
 import RightMenu from "./Sections/RightMenu";
 import styles from "./Sections/topbar.module.scss";
 
-function TopBar() {
+const TopBar = forwardRef((props, ref) => {
   return (
     <div className={styles.header}>
-      <LeftMenu />
+      <LeftMenu ref={ref} />
       <RightMenu />
     </div>
   );
-}
+});
 
 export default TopBar;
