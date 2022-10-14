@@ -12,10 +12,12 @@
 }
 
 .container {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
   padding: 3rem;
-  margin: 0 auto;
   width: 20rem;
-  height: 30rem;
+  height: 100%;
 
   h1 {
     display: block;
@@ -106,7 +108,7 @@
       width: 4rem;
       transform: translateY(-50%);
 
-      @include btn-disabled(#2192ff, #d3d3d3);
+      @include btn-disabled($color-main, #d3d3d3);
     }
 
     .button_submit {
@@ -116,7 +118,7 @@
       font-weight: bold;
       font-size: 1.2rem;
 
-      @include btn-disabled(#2192ff, #d3d3d3);
+      @include btn-disabled($color-main, #d3d3d3);
     }
   }
 }

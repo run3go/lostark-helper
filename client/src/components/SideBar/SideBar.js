@@ -7,22 +7,22 @@ const SideBar = React.forwardRef((props, ref) => {
     <div className={styles.snb} ref={ref}>
       <ul className={styles.snb_list}>
         <li className={styles.snb_menu}>
-          <Link to={"/"}>
+          <Link to={"/todo/all"}>
             <span>전체 보기</span>
           </Link>
         </li>
         <li className={styles.snb_menu}>
-          <Link to={"/"}>
+          <Link to={"/todo/today"}>
             <span>오늘</span>
           </Link>
         </li>
         <li className={styles.snb_menu}>
-          <Link to={"/"}>
+          <Link to={"/todo/week"}>
             <span>이번 주</span>
           </Link>
         </li>
         <li className={styles.snb_menu}>
-          <Link to={"/"}>
+          <Link to={"/todo/region"}>
             <span>군단장</span>
           </Link>
         </li>

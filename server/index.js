@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/users", require("./routes/users"));
+app.use("/api/characters", require("./routes/characters"));
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

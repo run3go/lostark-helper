@@ -29,6 +29,7 @@ function LoginPage() {
 
     dispatch(loginUser(dataToSubmit)).then((response) => {
       if (response.payload.loginSuccess) {
+        localStorage.setItem("userId", response.payload.userId);
         navigate("/");
       } else {
         alert("로그인에 실패했습니다.");
