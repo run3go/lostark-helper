@@ -1,0 +1,26 @@
+@import "../../styles/common.scss";
+
+.container {
+  .getChar_form_box {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .input_box {
+      text-align: center;
+      border: none;
+      border-bottom: 2px solid #000;
+      padding: 5px 10px;
+    }
+
+    .submit_btn {
+      margin-left: 10px;
+      border: none;
+      border-radius: 10px;
+      padding: 5px 10px;
+      background: #333;
+      color: #fff;
+    }
+  }
+}
