@@ -39,17 +39,19 @@ function LoginPage() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles["container"]}>
       <h1>Login</h1>
-      <form className={styles.form_box}>
-        <div className={styles.input_box}>
+      <form className={styles["register-form"]}>
+        <div className={styles["register-form__input-box"]}>
           <span
-            className={`${styles.input_txt} ${Email ? styles.focus_out : null}`}
+            className={`${styles["register-form__text"]} ${
+              Email ? styles["register-form__text--focus-out"] : null
+            }`}
           >
             이메일
           </span>
           <input
-            className={styles.input_field}
+            className={styles["register-form__input-field"]}
             id="email"
             type="email"
             value={Email}
@@ -57,16 +59,16 @@ function LoginPage() {
           />
         </div>
 
-        <div className={styles.input_box}>
+        <div className={styles["register-form__input-box"]}>
           <span
-            className={`${styles.input_txt} ${
-              Password ? styles.focus_out : null
+            className={`${styles["register-form__text"]} ${
+              Password ? styles["register-form__text--focus-out"] : null
             }`}
           >
             비밀번호
           </span>
           <input
-            className={styles.input_field}
+            className={styles["register-form__input-field"]}
             id="password"
             type="password"
             value={Password}
@@ -75,7 +77,7 @@ function LoginPage() {
         </div>
 
         <button
-          className={styles.button_submit}
+          className={styles["register-form__submit-button"]}
           onClick={handleSubmit}
           disabled={!(Email && Password)}
         >

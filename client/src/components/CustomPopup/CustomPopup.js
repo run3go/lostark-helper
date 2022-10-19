@@ -17,13 +17,13 @@ function CustomPopup(props) {
         visibility: show ? "visible" : "hidden",
         opacity: show ? "1" : "0",
       }}
-      className={styles.overlay}
+      className={styles["overlay"]}
     >
-      <div className={styles.popup}>
-        <span className={styles.close} onClick={closeHandler}>
+      <div className={styles["popup"]}>
+        <span className={styles["popup--close"]} onClick={closeHandler}>
           &times;
         </span>
-        <div className={styles.content}>{props.children}</div>
+        <div>{props.children}</div>
       </div>
     </div>
   );

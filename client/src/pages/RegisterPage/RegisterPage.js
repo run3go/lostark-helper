@@ -76,9 +76,17 @@ function RegisterPage() {
     }
 
     if (req) {
-      return <FaCheckCircle className={`${styles.checked} ${styles.icon}`} />;
+      return (
+        <FaCheckCircle
+          className={`${styles.checked} ${styles["register-form__input-box__icon"]}`}
+        />
+      );
     } else {
-      return <FaTimesCircle className={`${styles.unchecked} ${styles.icon}`} />;
+      return (
+        <FaTimesCircle
+          className={`${styles.unchecked} ${styles["register-form__input-box__icon"]}`}
+        />
+      );
     }
   };
 
@@ -117,17 +125,19 @@ function RegisterPage() {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles["container"]}>
       <h1>Register</h1>
-      <form className={styles.form_box}>
-        <div className={styles.input_box}>
+      <form className={styles["register-form"]}>
+        <div className={styles["register-form__input-box"]}>
           <span
-            className={`${styles.input_txt} ${Email ? styles.focus_out : null}`}
+            className={`${styles["register-form__text"]} ${
+              Email ? styles["register-form__text--focus-out"] : null
+            }`}
           >
             이메일
           </span>
           <input
-            className={styles.input_field}
+            className={styles["register-form__input-field"]}
             id="email"
             type="email"
             value={Email}
@@ -135,14 +145,16 @@ function RegisterPage() {
           />
           {checkRequirement(IsEmail, Email)}
           <span
-            className={`${styles.req_msg} ${
-              IsEmail ? styles.success : styles.false
+            className={`${styles["register-form__req-msg"]} ${
+              IsEmail
+                ? styles["register-form__req-msg--success"]
+                : styles["register-form__req-msg--false"]
             }`}
           >
             {EmailMessage}
           </span>
           <button
-            className={styles.checkEmail_button}
+            className={styles["register-form__check-email-btn"]}
             onClick={handleCheckEmail}
             disabled={!IsEmail}
           >
@@ -150,16 +162,16 @@ function RegisterPage() {
           </button>
         </div>
 
-        <div className={styles.input_box}>
+        <div className={styles["register-form__input-box"]}>
           <span
-            className={`${styles.input_txt} ${
-              Password ? styles.focus_out : null
+            className={`${styles["register-form__text"]} ${
+              Password ? styles["register-form__text--focus-out"] : null
             }`}
           >
             비밀번호
           </span>
           <input
-            className={styles.input_field}
+            className={styles["register-form__input-field"]}
             id="password"
             type="password"
             value={Password}
@@ -167,24 +179,26 @@ function RegisterPage() {
           />
           {checkRequirement(IsPassword, Password)}
           <span
-            className={`${styles.req_msg} ${
-              IsPassword ? styles.success : styles.false
+            className={`${styles["register-form__req-msg"]} ${
+              IsPassword
+                ? styles["register-form__req-msg--success"]
+                : styles["register-form__req-msg--false"]
             }`}
           >
             {PasswordMessage}
           </span>
         </div>
 
-        <div className={styles.input_box}>
+        <div className={styles["register-form__input-box"]}>
           <span
-            className={`${styles.input_txt} ${
-              PasswordConfirm ? styles.focus_out : null
+            className={`${styles["register-form__text"]} ${
+              PasswordConfirm ? styles["register-form__text--focus-out"] : null
             }`}
           >
             비밀번호 확인
           </span>
           <input
-            className={styles.input_field}
+            className={styles["register-form__input-field"]}
             id="passwordConfirm"
             type="password"
             value={PasswordConfirm}
@@ -192,8 +206,10 @@ function RegisterPage() {
           />
           {checkRequirement(IsPasswordConfirm, PasswordConfirm)}
           <span
-            className={`${styles.req_msg} ${
-              IsPasswordConfirm ? styles.success : styles.false
+            className={`${styles["register-form__req-msg"]} ${
+              IsPasswordConfirm
+                ? styles["register-form__req-msg--success"]
+                : styles["register-form__req-msg--false"]
             }`}
           >
             {PasswordConfirmMessage}
@@ -201,7 +217,7 @@ function RegisterPage() {
         </div>
 
         <button
-          className={styles.button_submit}
+          className={styles["register-form__submit-button"]}
           onClick={handleSubmit}
           disabled={!(IsEmail && IsPassword && IsPasswordConfirm && CheckEmail)}
         >

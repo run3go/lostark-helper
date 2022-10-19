@@ -19,17 +19,17 @@ const LeftMenu = forwardRef((props, ref) => {
     ref.current.style.width = "18%";
   };
   return (
-    <div className={styles.header_left}>
+    <div className={styles["header__nav"]}>
       <button
         onClick={toggleSnb ? closeSideNavBar : openSideNavBar}
-        className={`${styles.nav_menu} ${styles.nav_btn}`}
+        className={`${styles["header__nav__link"]} ${styles["header__nav__link--background-none"]}`}
       >
         <FontAwesomeIcon icon={faBars} />
       </button>
-      <Link className={`${styles.nav_menu}`} to="/">
+      <Link className={styles["header__nav__link"]} to="/">
         Lostark Helper
       </Link>
-      <Link className={`${styles.nav_menu}`} to="/">
+      <Link className={styles["header__nav__link"]} to="/">
         main2
       </Link>
     </div>

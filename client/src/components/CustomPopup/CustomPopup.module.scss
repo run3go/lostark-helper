@@ -22,7 +22,7 @@
     position: relative;
     transition: all 5s ease-in-out;
 
-    .close {
+    &--close {
       position: absolute;
       top: 10px;
       right: 20px;

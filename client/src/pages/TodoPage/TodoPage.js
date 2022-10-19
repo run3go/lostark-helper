@@ -67,49 +67,61 @@ function TodoPage() {
       </button>
       <CustomPopup onClose={popupCloseHandler} show={visibility}>
         <form
-          className={styles.search_form}
+          className={styles["search-form"]}
           onSubmit={(event) => {
             event.preventDefault();
           }}
         >
           <input
             placeholder="캐릭터명을 입력해주세요"
-            className={styles.input_box}
+            className={styles["search-form__input"]}
             id="character"
             type="text"
             value={character}
             onChange={onChangeCharacter}
           />
           <input
-            className={styles.btn_submit}
+            className={styles["search-form__submit-btn"]}
             type="submit"
             value="가져오기"
             onClick={getCharacters}
           />
         </form>
-        <div className={styles.info_container}>
+        <div className={styles["info-box"]}>
           {charactersInfo.slice(offset, offset + limit).map((info, i) => (
             <div
               key={i}
-              className={styles.info_box}
+              className={styles["info-content"]}
               onClick={() => {
                 fillArray(info.name);
               }}
             >
-              <img alt={info.className} src={info.img} />
-              <span className={styles.class_name}>{info.class}</span>
-              <span className={styles.character_name}>{info.name}</span>
+              <img
+                alt={info.className}
+                src={info.img}
+                className={styles["info-content__class-img"]}
+              />
+              <span className={styles["info-content__class-name"]}>
+                {info.class}
+              </span>
+              <span className={styles["info-content__char-name"]}>
+                {info.name}
+              </span>
             </div>
           ))}
           {showPageNum ? (
-            <Pagination
-              total={charactersInfo.length}
-              limit={limit}
-              page={page}
-              setPage={setPage}
-            />
+            <>
+              <Pagination
+                total={charactersInfo.length}
+                limit={limit}
+                page={page}
+                setPage={setPage}
+              />
+              <button className={styles["info-box__submit-btn"]}>
+                저장하기
+              </button>
+            </>
           ) : null}
-          <button className={styles.btn_submit}>저장하기</button>
         </div>
       </CustomPopup>
     </div>

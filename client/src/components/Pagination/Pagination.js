@@ -4,9 +4,9 @@ import styles from "./Pagination.module.scss";
 function Pagination({ total, limit, page, setPage }) {
   const numPages = Math.ceil(total / limit);
   return (
-    <div disabled={true} id={styles.container}>
+    <div disabled={true} className={styles["pagination"]}>
       <button
-        className={styles.btn_back}
+        className={styles["pagination__back-btn"]}
         onClick={() => {
           setPage(page - 1);
         }}
@@ -14,11 +14,11 @@ function Pagination({ total, limit, page, setPage }) {
       >
         &lt;
       </button>
-      <span className={styles.num_current_page}>
+      <span className={styles["pagination__current-num"]}>
         {page} / {numPages}
       </span>
       <button
-        className={styles.btn_front}
+        className={styles["pagination__front-btn"]}
         onClick={() => {
           setPage(page + 1);
         }}

@@ -1,4 +1,4 @@
-#container {
+.pagination {
   position: absolute;
   width: 100px;
   text-align: center;
@@ -6,7 +6,7 @@
   bottom: 20px;
   transform: translateX(-50%);
 
-  .num_current_page {
+  &__current-num {
     line-height: 2;
   }
 
@@ -22,10 +22,11 @@
       transform: translateY(-1px) scale(2);
     }
   }
-  .btn_back {
+
+  &__back-btn {
     left: -20px;
   }
-  .btn_front {
+  &__front-btn {
     right: -20px;
   }
 }
