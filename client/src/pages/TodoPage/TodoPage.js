@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./TodoPage.module.scss";
 import { CHARACTER_SERVER } from "../../components/Config";
 import CustomPopup from "../../components/CustomPopup/CustomPopup";
@@ -15,6 +15,8 @@ function TodoPage() {
   const [visibility, setVisibility] = useState(false);
   const [character, setCharacter] = useState("");
   const [charactersInfo, setCharactersInfo] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [isStandby, setIsStandby] = useState(true);
   const characterArray = [];
 
   const userId = localStorage.getItem("userId");
@@ -46,6 +48,7 @@ function TodoPage() {
   // 클라이언트에서 캐릭터 이름을 받아와서 해당 계정의 모든 캐릭터를 가져옴
   const getCharacters = async () => {
     try {
+      setLoading(true);
       let dataToSubmit = {
         name: character,
       };
@@ -54,12 +57,19 @@ function TodoPage() {
         dataToSubmit
       );
       setCharactersInfo(response.data.infoList);
-      setShowPageNum(true);
     } catch (error) {
       console.log(error);
     }
+    setShowPageNum(true);
+    setIsStandby(false);
+    setLoading(false);
   };
 
+  useEffect(() => {
+    if (charactersInfo.length === 0) {
+      setIsStandby(true);
+    }
+  }, [charactersInfo]);
   return (
     <div id={styles.container}>
       <button onClick={() => setVisibility(!visibility)}>
@@ -87,42 +97,61 @@ function TodoPage() {
             onClick={getCharacters}
           />
         </form>
-        <div className={styles["info-box"]}>
-          {charactersInfo.slice(offset, offset + limit).map((info, i) => (
-            <div
-              key={i}
-              className={styles["info-content"]}
-              onClick={() => {
-                fillArray(info.name);
-              }}
-            >
-              <img
-                alt={info.className}
-                src={info.img}
-                className={styles["info-content__class-img"]}
-              />
-              <span className={styles["info-content__class-name"]}>
-                {info.class}
-              </span>
-              <span className={styles["info-content__char-name"]}>
-                {info.name}
-              </span>
-            </div>
-          ))}
-          {showPageNum ? (
-            <>
-              <Pagination
-                total={charactersInfo.length}
-                limit={limit}
-                page={page}
-                setPage={setPage}
-              />
-              <button className={styles["info-box__submit-btn"]}>
-                저장하기
-              </button>
-            </>
-          ) : null}
-        </div>
+        {isStandby ? (
+          <span className={styles["standby-text"]}>Lostark Helper</span>
+        ) : loading ? (
+          <div className={styles["lds-spinner"]}>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        ) : (
+          <div className={styles["info-box"]}>
+            {charactersInfo.slice(offset, offset + limit).map((info, i) => (
+              <div
+                key={i}
+                className={styles["info-content"]}
+                onClick={() => {
+                  fillArray(info.name);
+                }}
+              >
+                <img
+                  alt={info.className}
+                  src={info.img}
+                  className={styles["info-content__class-img"]}
+                />
+                <span className={styles["info-content__class-name"]}>
+                  {info.class}
+                </span>
+                <span className={styles["info-content__char-name"]}>
+                  {info.name}
+                </span>
+              </div>
+            ))}
+            {showPageNum ? (
+              <>
+                <Pagination
+                  total={charactersInfo.length}
+                  limit={limit}
+                  page={page}
+                  setPage={setPage}
+                />
+                <button className={styles["info-box__submit-btn"]}>
+                  저장하기
+                </button>
+              </>
+            ) : null}
+          </div>
+        )}
       </CustomPopup>
     </div>
   );

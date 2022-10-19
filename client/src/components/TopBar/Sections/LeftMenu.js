@@ -9,13 +9,11 @@ const LeftMenu = forwardRef((props, ref) => {
 
   const closeSideNavBar = () => {
     setToggleSnb(false);
-    console.log("close");
     ref.current.style.width = "0";
   };
 
   const openSideNavBar = () => {
     setToggleSnb(true);
-    console.log("open");
     ref.current.style.width = "18%";
   };
   return (
