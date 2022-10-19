@@ -3,49 +3,71 @@ import React, { useState } from "react";
 import styles from "./TodoPage.module.scss";
 import { CHARACTER_SERVER } from "../../components/Config";
 import CustomPopup from "../../components/CustomPopup/CustomPopup";
+import Pagination from "../../components/Pagination/Pagination";
 
 function TodoPage() {
-  const [Visibility, setVisibility] = useState(false);
-  const [Character, setCharacter] = useState("");
+  //Pagination 상태, 변수
+  const [showPageNum, setShowPageNum] = useState(false);
+  const [page, setPage] = useState(1);
+  const limit = 9;
+  const offset = (page - 1) * limit;
+
+  const [visibility, setVisibility] = useState(false);
+  const [character, setCharacter] = useState("");
+  const [charactersInfo, setCharactersInfo] = useState([]);
+  const characterArray = [];
 
   const userId = localStorage.getItem("userId");
 
+  //클릭한 캐릭터를 배열에 담는 함수
+  const fillArray = (character) => {
+    if (characterArray.includes(character)) {
+      for (let i = 0; i < characterArray.length; i++) {
+        if (characterArray[i] === character) {
+          characterArray.splice(i, 1);
+        }
+      }
+      console.log(characterArray);
+      return;
+    } else if (characterArray.length === 6) {
+      return;
+    }
+    characterArray.push(character);
+    console.log(characterArray);
+  };
+  //팝업 열고 닫는 함수
   const popupCloseHandler = (e) => {
     setVisibility(e);
   };
-
+  // Input 값 상태 함수
   const onChangeCharacter = (event) => {
     setCharacter(event.target.value);
   };
-
-  const getAllCharacters = async () => {
+  // 클라이언트에서 캐릭터 이름을 받아와서 해당 계정의 모든 캐릭터를 가져옴
+  const getCharacters = async () => {
     try {
       let dataToSubmit = {
-        name: Character,
-        userId,
+        name: character,
       };
-
-      let response = await axios.post(
-        `${CHARACTER_SERVER}/getCharacter`,
+      const response = await axios.post(
+        `${CHARACTER_SERVER}/getCharacters`,
         dataToSubmit
       );
-
-      dataToSubmit = {
-        list: response.data.list,
-      };
-      console.log(dataToSubmit);
+      setCharactersInfo(response.data.infoList);
+      setShowPageNum(true);
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
-    <div className={styles.container}>
-      <button onClick={() => setVisibility(!Visibility)}>
+    <div id={styles.container}>
+      <button onClick={() => setVisibility(!visibility)}>
         대표 캐릭터 가져오기
       </button>
-      <CustomPopup onClose={popupCloseHandler} show={Visibility}>
+      <CustomPopup onClose={popupCloseHandler} show={visibility}>
         <form
-          className={styles.getChar_form_box}
+          className={styles.search_form}
           onSubmit={(event) => {
             event.preventDefault();
           }}
@@ -55,16 +77,40 @@ function TodoPage() {
             className={styles.input_box}
             id="character"
             type="text"
-            value={Character}
+            value={character}
             onChange={onChangeCharacter}
           />
           <input
-            className={styles.submit_btn}
+            className={styles.btn_submit}
             type="submit"
             value="가져오기"
-            onClick={getAllCharacters}
+            onClick={getCharacters}
           />
         </form>
+        <div className={styles.info_container}>
+          {charactersInfo.slice(offset, offset + limit).map((info, i) => (
+            <div
+              key={i}
+              className={styles.info_box}
+              onClick={() => {
+                fillArray(info.name);
+              }}
+            >
+              <img alt={info.className} src={info.img} />
+              <span className={styles.class_name}>{info.class}</span>
+              <span className={styles.character_name}>{info.name}</span>
+            </div>
+          ))}
+          {showPageNum ? (
+            <Pagination
+              total={charactersInfo.length}
+              limit={limit}
+              page={page}
+              setPage={setPage}
+            />
+          ) : null}
+          <button className={styles.btn_submit}>저장하기</button>
+        </div>
       </CustomPopup>
     </div>
   );

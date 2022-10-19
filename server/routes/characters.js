@@ -11,11 +11,12 @@ const cheerio = require("cheerio");
 const getHtml = async (name) => {
   try {
     const URI_Character = encodeURI(name);
-    return await axios.get(
+    const parsingHtml = await axios.get(
       `https://lostark.game.onstove.com/Profile/Character/${URI_Character}`
     );
+    return cheerio.load(parsingHtml.data);
   } catch (error) {
-    console.log(error);
+    return res.status(400).send(error);
   }
 };
 
@@ -33,44 +34,64 @@ const getAllCharacters = ($) => {
   //원정대의 모든 캐릭터명을 배열에 담음
 };
 
-router.post("/getCharacter", (req, res) => {
-  Character.findOne({ user: req.body.userId }).exec((err, user) => {
-    if (user) {
-      getHtml(req.body.name).then((html) => {
-        const $ = cheerio.load(html.data);
-        const characterList = getAllCharacters($);
-        return res.status(200).json({
-          message: "이미 등록된 캐릭터가 있습니다",
-          list: characterList,
-        });
-      });
-      // 이미 등록된 캐릭터가 있는지 확인
-    } else {
-      getHtml(req.body.name).then((html) => {
-        const $ = cheerio.load(html.data);
+router.post("/saveCharacters", (req, res) => {
+  Character.findOne({ user: req.body.userId }).exec(async (err, user) => {
+    if (!user) {
+      const parsedHtml = await getHtml(req.body.name);
+      const characterList = getAllCharacters(parsedHtml);
+      //원정대 캐릭터들의 정보들을 가져와서 객체에 담는다.
+
+      characterList.forEach(async (characterName, i) => {
+        const $ = await getHtml(characterName);
         const className = $("div.profile-character-info > img").attr("alt");
         const level = $("div.level-info2__item > span:nth-child(2)")
           .text()
           .substring(3)
           .replace(",", "");
+        const img = $("div.profile-character-info > img").attr("src");
 
-        const characterData = {
+        const characterInfo = {
           user: req.body.userId,
-          name: req.body.name,
+          name: characterName,
           className,
           level,
+          img,
         };
-        const characterList = getAllCharacters($);
-        //입력한 대표 캐럭터의 정보를 정리
-        const character = new Character(characterData);
 
-        character.save((err, info) => {
+        const character = new Character(characterInfo);
+
+        character.save((err, doc) => {
           if (err) return res.status(400).send(err);
-          res.status(200).json({ success: true, info, list: characterList });
         });
+        //캐릭터를 DB에 저장합니다.
       });
+      if (err) return res.status(400).send(err);
+      res.status(200).json({ success: true });
+    } else {
+      return res
+        .status(200)
+        .json({ message: "이미 등록된 캐릭터가 있습니다." });
     }
   });
+});
+
+router.post("/getCharacters", async (req, res) => {
+  const infoList = [];
+  const $ = await getHtml(req.body.name);
+  const characterList = $("ul.profile-character-list__char > li");
+
+  characterList.each((i, el) => {
+    const characterName = $(el).find("span > button > span").text();
+    const className = $(el).find("span > button > img").attr("alt");
+    const classImage = $(el).find("span > button > img").attr("src");
+    const characterInfo = {
+      name: characterName,
+      class: className,
+      img: classImage,
+    };
+    infoList.push(characterInfo);
+  });
+  res.status(200).json({ success: true, infoList });
 });
 
 module.exports = router;

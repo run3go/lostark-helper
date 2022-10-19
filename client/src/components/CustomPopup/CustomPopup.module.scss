@@ -1,3 +1,5 @@
+@import "../../styles/common.scss";
+
 .overlay {
   visibility: hidden;
   opacity: 0;
@@ -10,12 +12,13 @@
   transition: opacity 500ms;
 
   .popup {
+    z-index: -2;
     margin: 70px auto;
     padding: 20px;
     background: #fff;
     border-radius: 5px;
-    width: 50%;
-    height: 50%;
+    width: 638px;
+    height: 60%;
     position: relative;
     transition: all 5s ease-in-out;
 
@@ -32,10 +35,6 @@
         cursor: pointer;
         color: #000;
       }
-    }
-    .content {
-      max-height: 30%;
-      overflow: auto;
     }
   }
 }

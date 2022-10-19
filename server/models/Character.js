@@ -7,6 +7,7 @@ const characterSchema = mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+
     name: {
       type: String,
       trim: true,
@@ -19,6 +20,10 @@ const characterSchema = mongoose.Schema(
 
     level: {
       type: Number,
+    },
+
+    img: {
+      type: String,
     },
   },
   { timestamps: true }
