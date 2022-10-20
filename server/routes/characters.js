@@ -20,27 +20,11 @@ const getHtml = async (name) => {
   }
 };
 
-const getAllCharacters = ($) => {
-  let characterList = [];
-  const $bodyList = $("#expand-character-list > ul > li")
-    .children("span")
-    .children("button")
-    .children("span");
-  $bodyList.map((i, el) => {
-    characterList[i] = $(el).text();
-    return characterList[i];
-  });
-  return characterList;
-  //원정대의 모든 캐릭터명을 배열에 담음
-};
-
 router.post("/saveCharacters", (req, res) => {
   Character.findOne({ user: req.body.userId }).exec(async (err, user) => {
     if (!user) {
-      const parsedHtml = await getHtml(req.body.name);
-      const characterList = getAllCharacters(parsedHtml);
       //원정대 캐릭터들의 정보들을 가져와서 객체에 담는다.
-
+      const characterList = req.body.characters;
       characterList.forEach(async (characterName, i) => {
         const $ = await getHtml(characterName);
         const className = $("div.profile-character-info > img").attr("alt");
