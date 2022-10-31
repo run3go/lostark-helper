@@ -14,7 +14,7 @@ const LeftMenu = forwardRef((props, ref) => {
 
   const openSideNavBar = () => {
     setToggleSnb(true);
-    ref.current.style.width = "18%";
+    ref.current.style.width = "25%";
   };
   return (
     <div className={styles["header__nav"]}>

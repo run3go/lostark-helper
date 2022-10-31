@@ -49,7 +49,10 @@ function CustomPopup(props) {
         `${CHARACTER_SERVER}/getCharacters`,
         dataToSubmit
       );
-      setCharactersInfo(response.data.infoList);
+
+      response.data.infoArray.sort((a, b) => b.level - a.level);
+
+      setCharactersInfo(response.data.infoArray);
     } catch (error) {
       console.log(error);
     }
@@ -65,11 +68,18 @@ function CustomPopup(props) {
         userId,
       };
 
-      await axios.post(`${CHARACTER_SERVER}/saveCharacters`, dataToSubmit);
+      let response = await axios.post(
+        `${CHARACTER_SERVER}/saveCharacters`,
+        dataToSubmit
+      );
+      if (response.data.message) {
+        alert(response.data.message);
+      }
+      closeHandler();
+      props.setHasData(true);
     } catch (error) {
       console.log(error);
     }
-    closeHandler();
   };
 
   //클릭한 캐릭터를 배열에 담는 함수
@@ -152,7 +162,7 @@ function CustomPopup(props) {
                 }}
               >
                 <img
-                  alt={info.className}
+                  alt={info.class}
                   src={info.img}
                   className={styles["info-content__class-img"]}
                 />
@@ -167,6 +177,9 @@ function CustomPopup(props) {
                 ) : null}
                 <span className={styles["info-content__char-name"]}>
                   {info.name}
+                </span>
+                <span className={styles["info-content__char-level"]}>
+                  {info.level}
                 </span>
               </div>
             ))}

@@ -15,12 +15,13 @@
 
 .overlay {
   visibility: hidden;
-  opacity: 0;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 2;
+  opacity: 0;
   background: rgba(0, 0, 0, 0.7);
   transition: opacity 500ms;
 
@@ -28,12 +29,11 @@
     z-index: -2;
     margin: 70px auto;
     padding: 20px;
-    background: #fff;
+    background: rgb(250, 250, 250);
     border-radius: 5px;
     width: 638px;
     height: 65%;
     position: relative;
-    transition: all 5s ease-in-out;
 
     &--close {
       position: absolute;
@@ -91,14 +91,18 @@
       .info-content {
         position: relative;
         cursor: pointer;
-        border: green 3px solid;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         margin-right: 28px;
         margin-bottom: 20px;
         padding: 10px;
-        background: $color-main;
+        background: #fff;
         width: 180px;
         height: 90px;
         transition: all ease 0.2s;
+
+        &:hover {
+          transform: scale(1.1);
+        }
 
         &:nth-child(3n) {
           margin-right: 0;
@@ -110,21 +114,26 @@
         }
         &__class-name {
           padding-left: 10px;
-          color: #fff;
           font-size: 13px;
         }
+        &__char-level {
+          position: absolute;
+          bottom: 35px;
+          right: 10px;
+          font-size: 13px;
+          color: #999;
+        }
         &__char-name {
-          margin-top: 10px;
-          text-align: right;
-          display: block;
-          color: #fff;
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
           font-weight: bold;
           font-size: 14px;
         }
         &__checked-icon {
           border-radius: 10px;
-          border: 0.5px solid green;
-          background: $color-main;
+          border: 0.5px solid #000;
+          background: #000;
           position: absolute;
           top: 0px;
           right: 0px;

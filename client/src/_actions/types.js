@@ -1,4 +1,4 @@
-export const LOGIN_USER = "login_user";
-export const REGISTER_USER = "register_user";
-export const AUTH_USER = "auth_user";
-export const LOGOUT_USER = "logout_user";
+export const LOGIN_USER = "users/login_user";
+export const REGISTER_USER = "users/register_user";
+export const AUTH_USER = "users/auth_user";
+export const LOGOUT_USER = "users/logout_user";
