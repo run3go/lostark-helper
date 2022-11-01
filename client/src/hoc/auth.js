@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { auth } from "../_actions/user_actions";
+import { auth } from "../_reducers/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 

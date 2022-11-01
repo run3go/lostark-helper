@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaTimesCircle, FaCheckCircle } from "react-icons/fa";
-import { registerUser } from "../../_actions/user_actions";
+import { registerUser } from "../../_reducers/userSlice";
 import { USER_SERVER } from "../../components/Config";
 import styles from "./RegisterPage.module.scss";
 import axios from "axios";

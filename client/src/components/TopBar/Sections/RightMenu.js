@@ -1,15 +1,17 @@
 import React from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { USER_SERVER } from "../../Config";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "../../../_reducers/userSlice";
 import styles from "./topbar.module.scss";
 
 function RightMenu() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
   const logoutHandler = () => {
-    axios.get(`${USER_SERVER}/logout`).then((response) => {
-      if (response.status === 200) {
+    dispatch(logoutUser()).then((response) => {
+      if (response.payload.success) {
         localStorage.removeItem("userId");
         navigate("/login");
       } else {
@@ -17,7 +19,7 @@ function RightMenu() {
       }
     });
   };
-  const user = useSelector((state) => state.user);
+
   if (user.userData && !user.userData.isAuth) {
     return (
       <div className={styles["header__nav"]}>
