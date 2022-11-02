@@ -6,7 +6,6 @@ import Auth from "../hoc/auth";
 import TopBar from "./TopBar/TopBar";
 import SideBar from "./SideBar/SideBar";
 import Footer from "./Footer/Footer";
-import LandingPage from "../pages/LandingPage/LandingPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import TodayPage from "../pages/Today.page/TodayPage";
@@ -16,7 +15,6 @@ import TodoPage from "../pages/TodoPage/TodoPage";
 
 export default function App() {
   const sideNavBarRef = useRef();
-  const AuthLandingPage = Auth(LandingPage, null);
   const AuthLoginPage = Auth(LoginPage, false);
   const AuthRegisterPage = Auth(RegisterPage, false);
   const AuthTodayPage = Auth(TodayPage, true);
@@ -42,10 +40,9 @@ export default function App() {
             }}
           >
             <Routes>
-              <Route exact path="/" element={<AuthLandingPage />} />
               <Route exact path="/login" element={<AuthLoginPage />} />
               <Route exact path="/register" element={<AuthRegisterPage />} />
-              <Route exact path="/todo/all" element={<AutoTodoPage />} />
+              <Route exact path="/" element={<AutoTodoPage />} />
               <Route exact path="/todo/today" element={<AuthTodayPage />} />
               <Route exact path="/todo/week" element={<AuthWeekPage />} />
               <Route exact path="/todo/region" element={<AuthRegionPage />} />

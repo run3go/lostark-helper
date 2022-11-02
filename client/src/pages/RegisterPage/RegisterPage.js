@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaTimesCircle, FaCheckCircle } from "react-icons/fa";
 import { registerUser } from "../../_reducers/userSlice";
 import { USER_SERVER } from "../../components/Config";
@@ -125,105 +125,114 @@ function RegisterPage() {
   };
 
   return (
-    <div className={styles["container"]}>
-      <h1>Register</h1>
-      <form className={styles["register-form"]}>
-        <div className={styles["register-form__input-box"]}>
-          <span
-            className={`${styles["register-form__text"]} ${
-              Email ? styles["register-form__text--focus-out"] : null
-            }`}
-          >
-            이메일
-          </span>
-          <input
-            className={styles["register-form__input-field"]}
-            id="email"
-            type="email"
-            value={Email}
-            onChange={onChangeEmail}
-          />
-          {checkRequirement(IsEmail, Email)}
-          <span
-            className={`${styles["register-form__req-msg"]} ${
-              IsEmail
-                ? styles["register-form__req-msg--success"]
-                : styles["register-form__req-msg--false"]
-            }`}
-          >
-            {EmailMessage}
-          </span>
+    <div className={styles["overlay"]}>
+      <div className={styles["container"]}>
+        <h1>Register</h1>
+        <form className={styles["register-form"]}>
+          <div className={styles["register-form__input-box"]}>
+            <span
+              className={`${styles["register-form__text"]} ${
+                Email ? styles["register-form__text--focus-out"] : null
+              }`}
+            >
+              이메일
+            </span>
+            <input
+              className={styles["register-form__input-field"]}
+              id="email"
+              type="email"
+              value={Email}
+              onChange={onChangeEmail}
+            />
+            {checkRequirement(IsEmail, Email)}
+            <span
+              className={`${styles["register-form__req-msg"]} ${
+                IsEmail
+                  ? styles["register-form__req-msg--success"]
+                  : styles["register-form__req-msg--false"]
+              }`}
+            >
+              {EmailMessage}
+            </span>
+            <button
+              className={styles["register-form__check-email-btn"]}
+              onClick={handleCheckEmail}
+              disabled={!IsEmail}
+            >
+              중복확인
+            </button>
+          </div>
+
+          <div className={styles["register-form__input-box"]}>
+            <span
+              className={`${styles["register-form__text"]} ${
+                Password ? styles["register-form__text--focus-out"] : null
+              }`}
+            >
+              비밀번호
+            </span>
+            <input
+              className={styles["register-form__input-field"]}
+              id="password"
+              type="password"
+              value={Password}
+              onChange={onChangePassword}
+            />
+            {checkRequirement(IsPassword, Password)}
+            <span
+              className={`${styles["register-form__req-msg"]} ${
+                IsPassword
+                  ? styles["register-form__req-msg--success"]
+                  : styles["register-form__req-msg--false"]
+              }`}
+            >
+              {PasswordMessage}
+            </span>
+          </div>
+
+          <div className={styles["register-form__input-box"]}>
+            <span
+              className={`${styles["register-form__text"]} ${
+                PasswordConfirm
+                  ? styles["register-form__text--focus-out"]
+                  : null
+              }`}
+            >
+              비밀번호 확인
+            </span>
+            <input
+              className={styles["register-form__input-field"]}
+              id="passwordConfirm"
+              type="password"
+              value={PasswordConfirm}
+              onChange={onChangePasswordConfirm}
+            />
+            {checkRequirement(IsPasswordConfirm, PasswordConfirm)}
+            <span
+              className={`${styles["register-form__req-msg"]} ${
+                IsPasswordConfirm
+                  ? styles["register-form__req-msg--success"]
+                  : styles["register-form__req-msg--false"]
+              }`}
+            >
+              {PasswordConfirmMessage}
+            </span>
+          </div>
+
           <button
-            className={styles["register-form__check-email-btn"]}
-            onClick={handleCheckEmail}
-            disabled={!IsEmail}
+            className={styles["register-form__submit-button"]}
+            onClick={handleSubmit}
+            disabled={
+              !(IsEmail && IsPassword && IsPasswordConfirm && CheckEmail)
+            }
           >
-            중복확인
+            Sign Up
           </button>
-        </div>
-
-        <div className={styles["register-form__input-box"]}>
-          <span
-            className={`${styles["register-form__text"]} ${
-              Password ? styles["register-form__text--focus-out"] : null
-            }`}
-          >
-            비밀번호
-          </span>
-          <input
-            className={styles["register-form__input-field"]}
-            id="password"
-            type="password"
-            value={Password}
-            onChange={onChangePassword}
-          />
-          {checkRequirement(IsPassword, Password)}
-          <span
-            className={`${styles["register-form__req-msg"]} ${
-              IsPassword
-                ? styles["register-form__req-msg--success"]
-                : styles["register-form__req-msg--false"]
-            }`}
-          >
-            {PasswordMessage}
-          </span>
-        </div>
-
-        <div className={styles["register-form__input-box"]}>
-          <span
-            className={`${styles["register-form__text"]} ${
-              PasswordConfirm ? styles["register-form__text--focus-out"] : null
-            }`}
-          >
-            비밀번호 확인
-          </span>
-          <input
-            className={styles["register-form__input-field"]}
-            id="passwordConfirm"
-            type="password"
-            value={PasswordConfirm}
-            onChange={onChangePasswordConfirm}
-          />
-          {checkRequirement(IsPasswordConfirm, PasswordConfirm)}
-          <span
-            className={`${styles["register-form__req-msg"]} ${
-              IsPasswordConfirm
-                ? styles["register-form__req-msg--success"]
-                : styles["register-form__req-msg--false"]
-            }`}
-          >
-            {PasswordConfirmMessage}
-          </span>
-        </div>
-
-        <button
-          className={styles["register-form__submit-button"]}
-          onClick={handleSubmit}
-          disabled={!(IsEmail && IsPassword && IsPasswordConfirm && CheckEmail)}
-        >
-          Sign Up
-        </button>
-      </form>
+        </form>
+        <Link className={styles["link-btn"]} to="/login">
+          로그인
+        </Link>
+      </div>
     </div>
   );
 }
