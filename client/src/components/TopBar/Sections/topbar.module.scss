@@ -9,6 +9,14 @@
   font-size: 17px;
   border-radius: 7px;
   transition: all ease 0.3s;
+
+  &:hover {
+    background-color: $color-sub;
+  }
+
+  &:active {
+    background-color: $color-main;
+  }
 }
 
 .header {
@@ -26,13 +34,6 @@
 
     &--background-none {
       background: none;
-    }
-    &:hover {
-      background-color: $color-sub;
-    }
-
-    &:active {
-      background-color: $color-main;
     }
   }
 }

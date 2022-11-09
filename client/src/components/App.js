@@ -8,10 +8,11 @@ import SideBar from "./SideBar/SideBar";
 import Footer from "./Footer/Footer";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
-import TodayPage from "../pages/Today.page/TodayPage";
+import TodayPage from "../pages/Todaypage/TodayPage";
 import WeekPage from "../pages/WeekPage/WeekPage";
 import RegionPage from "../pages/RegionPage/RegionPage";
 import TodoPage from "../pages/TodoPage/TodoPage";
+import MainPage from "../pages/MainPage/MainPage";
 
 export default function App() {
   const sideNavBarRef = useRef();
@@ -20,7 +21,8 @@ export default function App() {
   const AuthTodayPage = Auth(TodayPage, true);
   const AuthWeekPage = Auth(WeekPage, true);
   const AuthRegionPage = Auth(RegionPage, true);
-  const AutoTodoPage = Auth(TodoPage, true);
+  const AuthTodoPage = Auth(TodoPage, true);
+  const AuthMainPage = Auth(MainPage, true);
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -42,7 +44,8 @@ export default function App() {
             <Routes>
               <Route exact path="/login" element={<AuthLoginPage />} />
               <Route exact path="/register" element={<AuthRegisterPage />} />
-              <Route exact path="/" element={<AutoTodoPage />} />
+              <Route exact path="/" element={<AuthTodoPage />} />
+              <Route exact path="/todo/main" element={<AuthMainPage />} />
               <Route exact path="/todo/today" element={<AuthTodayPage />} />
               <Route exact path="/todo/week" element={<AuthWeekPage />} />
               <Route exact path="/todo/region" element={<AuthRegionPage />} />

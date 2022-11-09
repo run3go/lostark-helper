@@ -37,7 +37,7 @@ function CustomPopup(props) {
     setCharacter(event.target.value);
   };
   // 클라이언트에서 캐릭터 이름을 받아와서 해당 계정의 모든 캐릭터를 가져옴
-  const getCharacters = async () => {
+  const getCharacterList = async () => {
     try {
       setCharacterArray([]);
       setPage(1);
@@ -46,7 +46,7 @@ function CustomPopup(props) {
         name: character,
       };
       const response = await axios.post(
-        `${CHARACTER_SERVER}/getCharacters`,
+        `${CHARACTER_SERVER}/getCharacterList`,
         dataToSubmit
       );
 
@@ -76,7 +76,6 @@ function CustomPopup(props) {
         alert(response.data.message);
       }
       closeHandler();
-      props.setHasData(true);
     } catch (error) {
       console.log(error);
     }
@@ -131,7 +130,7 @@ function CustomPopup(props) {
             className={styles["search-form__submit-btn"]}
             type="submit"
             value="가져오기"
-            onClick={getCharacters}
+            onClick={getCharacterList}
           />
         </form>
         {isStandby ? (

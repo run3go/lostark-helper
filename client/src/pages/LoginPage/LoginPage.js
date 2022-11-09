@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../../_reducers/userSlice";
+import { getCharacters } from "../../slices/charactersSlice";
+import { loginUser } from "../../slices/userSlice";
 import styles from "./LoginPage.module.scss";
 
 function LoginPage() {
@@ -30,7 +31,17 @@ function LoginPage() {
     dispatch(loginUser(dataToSubmit)).then((response) => {
       if (response.payload.loginSuccess) {
         localStorage.setItem("userId", response.payload.userId);
-        navigate("/");
+        const userId = localStorage.getItem("userId");
+        dataToSubmit = {
+          userId,
+        };
+        dispatch(getCharacters(dataToSubmit)).then((response) => {
+          if (response.payload.data) {
+            navigate("/todo/main");
+          } else {
+            navigate("/");
+          }
+        });
       } else {
         alert("로그인에 실패했습니다.");
         setPassword("");
@@ -55,6 +66,7 @@ function LoginPage() {
               className={styles["login-form__input-field"]}
               id="email"
               type="email"
+              autoComplete="off"
               value={Email}
               onChange={onChangeEmail}
             />
@@ -72,6 +84,7 @@ function LoginPage() {
               className={styles["login-form__input-field"]}
               id="password"
               type="password"
+              autoComplete="new-password"
               value={Password}
               onChange={onChangePassword}
             />

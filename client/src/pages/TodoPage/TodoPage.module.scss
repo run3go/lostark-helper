@@ -25,47 +25,4 @@
     transform: translate(50%);
     font-size: 20px;
   }
-
-  .todo-contents {
-    width: 500px;
-    height: 300px;
-    border-radius: 15px 15px 0 0;
-    background: #fff;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    &__title {
-      display: block;
-      padding: 15px;
-      border-radius: 18px 18px 0 0;
-      background: $color-title;
-      font-size: 17px;
-      color: #fff;
-      text-align: center;
-    }
-  }
-
-  .today-content {
-  }
-  .week-content {
-  }
-  .region-content {
-    &__list {
-      padding: 10px;
-    }
-    &__item {
-      padding: 7.5px;
-      border-bottom: 1px solid #999;
-      color: #666;
-      &:last-child {
-        border: none;
-      }
-      &__name {
-        display: inline-block;
-        width: 150px;
-        text-align: center;
-        font-size: 14px;
-      }
-    }
-  }
-  .custom-todo-content {
-  }
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { FaTimesCircle, FaCheckCircle } from "react-icons/fa";
-import { registerUser } from "../../_reducers/userSlice";
+import { registerUser } from "../../slices/userSlice";
 import { USER_SERVER } from "../../components/Config";
 import styles from "./RegisterPage.module.scss";
 import axios from "axios";
@@ -141,6 +141,7 @@ function RegisterPage() {
               className={styles["register-form__input-field"]}
               id="email"
               type="email"
+              autoComplete="off"
               value={Email}
               onChange={onChangeEmail}
             />
@@ -175,6 +176,7 @@ function RegisterPage() {
               className={styles["register-form__input-field"]}
               id="password"
               type="password"
+              autoComplete="new-password"
               value={Password}
               onChange={onChangePassword}
             />
@@ -204,6 +206,7 @@ function RegisterPage() {
               className={styles["register-form__input-field"]}
               id="passwordConfirm"
               type="password"
+              autoComplete="new-password"
               value={PasswordConfirm}
               onChange={onChangePasswordConfirm}
             />

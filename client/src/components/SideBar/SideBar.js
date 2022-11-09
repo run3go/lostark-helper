@@ -2,12 +2,12 @@ import React, { forwardRef } from "react";
 import { Link } from "react-router-dom";
 import styles from "./SideBar.module.scss";
 
-const SideBar = React.forwardRef((props, ref) => {
+const SideBar = forwardRef((props, ref) => {
   return (
     <div className={styles.snb} ref={ref}>
       <ul className={styles.snb_list}>
         <li className={styles.snb_menu}>
-          <Link to={"/todo/all"}>
+          <Link to={"/todo/main"}>
             <span>전체 보기</span>
           </Link>
         </li>

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { auth } from "../_reducers/userSlice";
+import { auth } from "../slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -20,12 +20,12 @@ export default function (SpecificComponent, option, adminRoute = null) {
         } else {
           //supposed to be Admin page, but not admin person wants to go inside
           if (adminRoute && !response.payload.isAdmin) {
-            navigate("/");
+            navigate("/todo/main");
           }
           //Logged in Status, but Try to go into log in page
           else {
             if (option === false) {
-              navigate("/");
+              navigate("/todo/main");
             }
           }
         }

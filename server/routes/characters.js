@@ -49,7 +49,7 @@ router.post("/saveCharacters", (req, res) => {
   });
 });
 
-router.post("/getCharacters", async (req, res) => {
+router.post("/getCharacterList", async (req, res) => {
   try {
     let infoArray = [];
     let count = 0;
@@ -79,7 +79,6 @@ router.post("/getCharacters", async (req, res) => {
       infoArray.push(characterInfo);
       count++;
       if (count === characterArray.length) {
-        console.log(infoArray);
         res.status(200).json({ success: true, infoArray });
       }
     });
@@ -89,12 +88,12 @@ router.post("/getCharacters", async (req, res) => {
 });
 
 router.post("/getCharactersInfo", (req, res) => {
-  Character.find({ user: req.body.userId }).exec((err, info) => {
+  Character.find({ user: req.body.userId }).exec((err, data) => {
     if (err) return res.status(400).send(err);
-    if (info.length === 0) {
+    if (data.length === 0) {
       res.status(200).json({ success: false });
     } else {
-      res.status(200).json({ success: true, info });
+      res.status(200).json({ success: true, data });
     }
   });
 });
