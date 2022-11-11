@@ -67,6 +67,7 @@ function CustomPopup(props) {
         characters: characterArray,
         userId,
       };
+      console.log(characterArray);
 
       let response = await axios.post(
         `${CHARACTER_SERVER}/saveCharacters`,
@@ -82,13 +83,13 @@ function CustomPopup(props) {
   };
 
   //클릭한 캐릭터를 배열에 담는 함수
-  const fillArray = (character) => {
-    if (characterArray.includes(character)) {
+  const fillArray = (name, level) => {
+    if (characterArray.some((character) => character.name === name)) {
       for (let i = 0; i < characterArray.length; i++) {
-        if (characterArray[i] === character) {
+        if (characterArray[i].name === name) {
           setCharacterArray(
             characterArray.filter((element) => {
-              return element !== character;
+              return element.name !== name;
             })
           );
         }
@@ -97,7 +98,7 @@ function CustomPopup(props) {
     } else if (characterArray.length === 6) {
       return;
     }
-    setCharacterArray((current) => [character, ...current]);
+    setCharacterArray((current) => [{ name, level }, ...current]);
   };
 
   return (
@@ -157,7 +158,7 @@ function CustomPopup(props) {
                 key={i}
                 className={styles["info-content"]}
                 onClick={() => {
-                  fillArray(info.name);
+                  fillArray(info.name, info.level);
                 }}
               >
                 <img
@@ -168,7 +169,9 @@ function CustomPopup(props) {
                 <span className={styles["info-content__class-name"]}>
                   {info.class}
                 </span>
-                {characterArray.includes(info.name) ? (
+                {characterArray.some(
+                  (character) => character.name === info.name
+                ) ? (
                   <FontAwesomeIcon
                     className={styles["info-content__checked-icon"]}
                     icon={faCircleCheck}
@@ -188,14 +191,14 @@ function CustomPopup(props) {
                   onClick={() =>
                     setCharacterArray(
                       characterArray.filter((element) => {
-                        return element !== character;
+                        return element !== character.name;
                       })
                     )
                   }
                   className={styles["info-box__chosen-char-item"]}
                   key={i}
                 >
-                  {character}
+                  {character.name}
                 </li>
               ))}
             </ul>

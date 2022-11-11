@@ -25,14 +25,16 @@ router.post("/saveCharacters", (req, res) => {
     if (!user) {
       //원정대 캐릭터들의 정보들을 가져와서 객체에 담는다.
       const characterList = req.body.characters;
-      characterList.forEach(async (characterName, i) => {
-        const $ = await getHtml(characterName);
+      characterList.forEach(async (characterData, i) => {
+        const $ = await getHtml(characterData);
         const characterInfo = {
           user: req.body.userId,
-          name: characterName,
+          name: characterData.name,
+          level: characterData.level,
         };
 
         const character = new Character(characterInfo);
+        console.log(character);
 
         character.save((err, doc) => {
           if (err) return res.status(400).send(err);

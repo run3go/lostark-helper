@@ -33,7 +33,7 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.pre("save", function (next) {
-  var user = this;
+  let user = this;
 
   if (user.isModified("password")) {
     //DB의 패스워드 값이 변경,추가 되었을 때만 실행
@@ -59,10 +59,10 @@ userSchema.methods.comparePassword = function (plainPassword, cb) {
 };
 
 userSchema.methods.generateToken = function (cb) {
-  var user = this;
+  let user = this;
 
-  var token = jwt.sign(user._id.toHexString(), "secretword");
-  var oneHour = moment().add(1, "hour").valueOf();
+  let token = jwt.sign(user._id.toHexString(), "secretword");
+  let oneHour = moment().add(1, "hour").valueOf();
 
   user.token = token;
   user.tokenExp = oneHour;
@@ -73,7 +73,7 @@ userSchema.methods.generateToken = function (cb) {
 };
 
 userSchema.statics.findByToken = function (token, cb) {
-  var user = this;
+  let user = this;
 
   jwt.verify(token, "secretword", function (err, decode) {
     user.findOne({ _id: decode, token: token }, function (err, user) {
