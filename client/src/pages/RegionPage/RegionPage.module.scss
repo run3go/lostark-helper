@@ -16,21 +16,52 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  align-content: center;
+  gap: 40px;
   padding: 40px;
-  height: 100%;
+  height: calc(100vh - 58.4px);
   background: rgb(250, 250, 250);
 
   .todo-contents {
-    width: 550px;
-    height: 300px;
     background: #fff;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
     &__title {
       display: block;
       padding: 13px;
       background: $color-title;
       font-size: 14px;
       color: #fff;
+    }
+
+    &.total-clear-box {
+      width: 200px;
+      height: 150px;
+    }
+
+    &.region-box {
+      width: 200px;
+      height: 480px;
+    }
+  }
+  .character-wrap {
+    width: 800px;
+    height: 700px;
+    .character-box {
+      margin-bottom: 20px;
+      &__raid-list {
+        display: flex;
+      }
+
+      &__raid-item {
+        flex-basis: 33.333%;
+        padding: 13px;
+        text-align: center;
+
+        &__region-name {
+          margin-right: 10px;
+        }
+      }
     }
   }
 }

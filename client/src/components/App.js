@@ -5,7 +5,6 @@ import Auth from "../hoc/auth";
 
 import TopBar from "./TopBar/TopBar";
 import SideBar from "./SideBar/SideBar";
-import Footer from "./Footer/Footer";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import TodayPage from "../pages/Todaypage/TodayPage";
@@ -51,7 +50,6 @@ export default function App() {
               <Route exact path="/todo/region" element={<AuthRegionPage />} />
             </Routes>
           </div>
-          <Footer />
         </div>
       </div>
     </Suspense>
