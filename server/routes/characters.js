@@ -89,6 +89,21 @@ router.post("/getCharacterList", async (req, res) => {
   }
 });
 
+router.post("/updateClear", (req, res) => {
+  const { region, name, clear, userId } = req.body;
+  Character.updateOne(
+    { user: userId, name: name, "regionRaid.region": region },
+    {
+      $set: {
+        "regionRaid.$.clear": !clear,
+      },
+    }
+  ).exec((err, data) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).json({ clear });
+  });
+});
+
 router.post("/getCharactersInfo", (req, res) => {
   Character.find({ user: req.body.userId }).exec((err, data) => {
     if (err) return res.status(400).send(err);

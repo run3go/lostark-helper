@@ -33,15 +33,44 @@
       font-size: 14px;
       color: #fff;
     }
+  }
+  .total-clear-box {
+    width: 200px;
+    height: 150px;
+    text-align: center;
 
-    &.total-clear-box {
-      width: 200px;
-      height: 150px;
+    &__text {
+      display: block;
+      margin-top: 40px;
+      font-size: 18px;
     }
 
-    &.region-box {
-      width: 200px;
-      height: 480px;
+    &__text--font-bold {
+      display: block;
+      margin-top: 40px;
+      font-size: 18px;
+      text-decoration: line-through;
+      font-weight: bold;
+    }
+  }
+  .region-box {
+    width: 200px;
+
+    &__list {
+      padding: 10px 0;
+    }
+
+    &__item {
+      text-align: center;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    &__item--text-bold {
+      text-align: center;
+      padding: 10px;
+      margin: 10px 0;
+      font-weight: bold;
+      text-decoration: line-through;
     }
   }
   .character-wrap {
@@ -54,9 +83,29 @@
       }
 
       &__raid-item {
+        cursor: pointer;
         flex-basis: 33.333%;
         padding: 13px;
+        border-right: 2px solid #e6e6e6;
         text-align: center;
+
+        &.cleared {
+          color: $color-main;
+          font-weight: bold;
+          opacity: 0.5;
+          background: $color-sub;
+          box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+          &:hover {
+            opacity: 1;
+            background: rgba(78, 148, 79, 0.3);
+            color: $color-main;
+          }
+        }
+
+        &:hover {
+          background: $color-sub;
+        }
 
         &__region-name {
           margin-right: 10px;
