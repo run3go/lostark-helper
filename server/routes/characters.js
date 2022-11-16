@@ -26,7 +26,6 @@ router.post("/saveCharacters", (req, res) => {
       //원정대 캐릭터들의 정보들을 가져와서 객체에 담는다.
       const characterList = req.body.characters;
       characterList.forEach(async (characterData, i) => {
-        const $ = await getHtml(characterData);
         const characterInfo = {
           user: req.body.userId,
           name: characterData.name,
@@ -34,9 +33,9 @@ router.post("/saveCharacters", (req, res) => {
         };
 
         const character = new Character(characterInfo);
-        console.log(character);
 
         character.save((err, doc) => {
+          console.log(doc);
           if (err) return res.status(400).send(err);
         });
         //캐릭터를 DB에 저장합니다.
@@ -98,21 +97,40 @@ router.post("/updateClear", (req, res) => {
         "regionRaid.$.clear": !clear,
       },
     }
-  ).exec((err, data) => {
+  ).exec((err, doc) => {
     if (err) return res.status(400).send(err);
     res.status(200).json({ clear });
   });
 });
 
-router.post("/getCharactersInfo", (req, res) => {
-  Character.find({ user: req.body.userId }).exec((err, data) => {
-    if (err) return res.status(400).send(err);
-    if (data.length === 0) {
-      res.status(200).json({ success: false });
-    } else {
-      res.status(200).json({ success: true, data });
+router.post("/updateRegion", (req, res) => {
+  const { name, currentRegion, nextRegion, userId } = req.body;
+  Character.updateOne(
+    { user: userId, name: name, "regionRaid.region": currentRegion },
+    {
+      $set: {
+        "regionRaid.$.region": nextRegion,
+      },
     }
-  });
+  )
+    .update()
+    .exec((err, doc) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).json({ nextRegion });
+    });
+});
+
+router.post("/getCharactersInfo", (req, res) => {
+  Character.find({ user: req.body.userId })
+    .sort({ level: -1 })
+    .exec((err, data) => {
+      if (err) return res.status(400).send(err);
+      if (data.length === 0) {
+        res.status(200).json({ success: false });
+      } else {
+        res.status(200).json({ success: true, data });
+      }
+    });
 });
 
 module.exports = router;

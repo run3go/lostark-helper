@@ -1,5 +1,16 @@
 @import "../../styles/common.scss";
 
+@mixin item-box($padding, $border-property) {
+  padding: $padding;
+  cursor: pointer;
+  #{$border-property}: 1px solid #e6e6e6;
+  text-align: center;
+
+  &:hover {
+    background: $color-sub;
+  }
+}
+
 .lds-spinner {
   display: block;
   margin: 0 auto;
@@ -46,7 +57,6 @@
     }
 
     &__text--font-bold {
-      display: block;
       margin-top: 40px;
       font-size: 18px;
       text-decoration: line-through;
@@ -55,22 +65,21 @@
   }
   .region-box {
     width: 200px;
+    text-align: center;
 
     &__list {
       padding: 10px 0;
     }
 
     &__item {
-      text-align: center;
       padding: 10px;
       margin: 10px 0;
     }
-    &__item--text-bold {
-      text-align: center;
+    &__item--font-bold {
       padding: 10px;
       margin: 10px 0;
-      font-weight: bold;
       text-decoration: line-through;
+      font-weight: bold;
     }
   }
   .character-wrap {
@@ -83,13 +92,17 @@
       }
 
       &__raid-item {
-        cursor: pointer;
+        transition: all ease 1s;
         flex-basis: 33.333%;
-        padding: 13px;
-        border-right: 2px solid #e6e6e6;
-        text-align: center;
+        position: relative;
+        &__box {
+          @include item-box(13px, border-right);
 
-        &.cleared {
+          &__region-name {
+            margin-right: 10px;
+          }
+        }
+        .cleared {
           color: $color-main;
           font-weight: bold;
           opacity: 0.5;
@@ -103,13 +116,57 @@
           }
         }
 
-        &:hover {
-          background: $color-sub;
-        }
+        &__setting-box {
+          width: 100px;
 
-        &__region-name {
-          margin-right: 10px;
+          &__raid-list {
+            display: none;
+            z-index: 2;
+            position: absolute;
+            top: 40px;
+            right: -33px;
+            background: #fff;
+          }
+
+          &__raid-item {
+            @include item-box(10px, border);
+            font-size: 14px;
+          }
         }
+        &__setting-btn {
+          cursor: pointer;
+          position: absolute;
+          top: 15px;
+          right: 7px;
+          background: none;
+
+          &__icon {
+            color: #999;
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+  }
+  .switch {
+    cursor: pointer;
+    padding-top: 0px;
+    width: 35px;
+    height: 35px;
+    background: $color-main;
+    text-align: center;
+    &-input {
+      display: none;
+      cursor: pointer;
+
+      &:checked ~ .switch-input__icon {
+        transform: scale(1.7) translateY(3px) rotate(90deg);
+      }
+
+      &__icon {
+        color: #fff;
+        transform: translateY(5px);
+        transition: all ease 0.5s;
       }
     }
   }

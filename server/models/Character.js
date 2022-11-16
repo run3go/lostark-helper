@@ -45,19 +45,18 @@ characterSchema.pre("save", function (next) {
   let character = this;
   const raidArray = [];
   if (character.level >= 1415) {
-    raidArray.push({ region: "발탄", clear: false });
+    raidArray.push({ region: "발탄", clear: false, id: 0 });
     if (character.level >= 1430) {
-      raidArray.push({ region: "비아키스", clear: false });
+      raidArray.push({ region: "비아키스", clear: false, id: 1 });
       if (character.level >= 1475) {
-        raidArray.push({ region: "쿠크세이튼", clear: false });
+        raidArray.push({ region: "쿠크세이튼", clear: false, id: 2 });
         if (character.level >= 1490) {
           raidArray.shift();
-          raidArray.push({ region: "아브렐슈드", clear: false });
+          raidArray.push({ region: "아브렐슈드", clear: false, id: 3 });
           if (character.level >= 1580) {
             raidArray.shift();
-            raidArray.push({ region: "일리아칸", clear: false });
+            raidArray.push({ region: "일리아칸", clear: false, id: 4 });
             character.regionRaid = raidArray;
-            console.log(raidArray);
             next();
           } else {
             character.regionRaid = raidArray;

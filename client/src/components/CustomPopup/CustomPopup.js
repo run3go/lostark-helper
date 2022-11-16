@@ -67,7 +67,6 @@ function CustomPopup(props) {
         characters: characterArray,
         userId,
       };
-      console.log(characterArray);
 
       let response = await axios.post(
         `${CHARACTER_SERVER}/saveCharacters`,
@@ -98,6 +97,7 @@ function CustomPopup(props) {
     } else if (characterArray.length === 6) {
       return;
     }
+
     setCharacterArray((current) => [{ name, level }, ...current]);
   };
 

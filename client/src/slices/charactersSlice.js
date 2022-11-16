@@ -13,6 +13,10 @@ export const charactersSlice = createSlice({
       const { charIndex, raidIndex, clear } = payload;
       state.info.data[charIndex].regionRaid[raidIndex].clear = !clear;
     },
+    setRegion: (state, { payload }) => {
+      const { charIndex, raidIndex, nextRegion } = payload;
+      state.info.data[charIndex].regionRaid[raidIndex].region = nextRegion;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -33,6 +37,13 @@ export const charactersSlice = createSlice({
         state.loading = false;
       })
       .addCase(updateClear.rejected, (state) => {
+        state.loading = false;
+      })
+      //updateRegion
+      .addCase(updateRegion.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateRegion.rejected, (state) => {
         state.loading = false;
       });
   },
@@ -68,6 +79,21 @@ export const updateClear = createAsyncThunk(
   }
 );
 
-export const { setClear } = charactersSlice.actions;
+export const updateRegion = createAsyncThunk(
+  "characters/updateRegion",
+  async (dataToSubmit, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${CHARACTER_SERVER}/updateRegion`,
+        dataToSubmit
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const { setClear, setRegion } = charactersSlice.actions;
 
 export default charactersSlice.reducer;

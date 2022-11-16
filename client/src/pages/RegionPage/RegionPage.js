@@ -3,15 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getCharacters,
   setClear,
+  setRegion,
   updateClear,
+  updateRegion,
 } from "../../slices/charactersSlice";
 import styles from "./RegionPage.module.scss";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGear } from "@fortawesome/free-solid-svg-icons";
 function RegionPage() {
   const dispatch = useDispatch();
   const characters = useSelector((state) => state.characters);
+  const userId = localStorage.getItem("userId");
 
   const [isFetched, setIsFetched] = useState(false);
+  const [toggleSetting, setToggleSetting] = useState(false);
 
   const regionList = [
     "발탄",
@@ -21,15 +27,40 @@ function RegionPage() {
     "일리아칸",
   ];
 
+  const showHandler = (event) => {
+    const ulElement = event.currentTarget.nextElementSibling;
+    const compStyles = window.getComputedStyle(ulElement);
+    if (compStyles.getPropertyValue("display") === "none") {
+      ulElement.style.display = "block";
+    } else {
+      ulElement.style.display = "none";
+    }
+  };
+
+  const ontoggleSetting = () => {
+    setToggleSetting(!toggleSetting);
+  };
+
   const updateRaidClear = (name, region, clear) => {
-    const userId = localStorage.getItem("userId");
     const dataToSubmit = { name, region, clear, userId };
     dispatch(updateClear(dataToSubmit));
+  };
+
+  const updatesRegion = (name, currentRegion, nextRegion) => {
+    const dataToSubmit = { name, currentRegion, nextRegion, userId };
+    dispatch(updateRegion(dataToSubmit));
   };
 
   const onChangeClear = (charIndex, raidIndex, clear) => {
     const dataToSubmit = { charIndex, raidIndex, clear };
     dispatch(setClear(dataToSubmit));
+  };
+
+  const onChangeRegion = (event, charIndex, raidIndex, nextRegion) => {
+    const dataToSubmit = { charIndex, raidIndex, nextRegion };
+    dispatch(setRegion(dataToSubmit));
+    const ulElement = event.currentTarget.parentElement;
+    ulElement.style.display = "none";
   };
 
   const getTotalClear = () => {
@@ -88,7 +119,7 @@ function RegionPage() {
         key={region}
         className={
           clearTimes === allTargetRaid
-            ? styles["region-box__item--text-bold"]
+            ? styles["region-box__item--font-bold"]
             : styles["region-box__item"]
         }
       >
@@ -156,35 +187,123 @@ function RegionPage() {
                 {character.regionRaid.map((raid, raidIndex) => {
                   return (
                     <li
-                      onClick={() => {
-                        updateRaidClear(
-                          character.name,
-                          raid.region,
-                          raid.clear
-                        );
-                        onChangeClear(charIndex, raidIndex, raid.clear);
-                      }}
                       key={raidIndex}
-                      className={
-                        raid.clear
-                          ? `${styles["character-box__raid-item"]} ${styles["cleared"]}`
-                          : styles["character-box__raid-item"]
-                      }
+                      className={styles["character-box__raid-item"]}
                     >
-                      <span
+                      <div
+                        onClick={() => {
+                          updateRaidClear(
+                            character.name,
+                            raid.region,
+                            raid.clear
+                          );
+                          onChangeClear(charIndex, raidIndex, raid.clear);
+                        }}
                         className={
-                          styles["character-box__raid-item__region-name"]
+                          raid.clear
+                            ? `${styles["character-box__raid-item__box"]} ${styles["cleared"]}`
+                            : styles["character-box__raid-item__box"]
                         }
                       >
-                        {raid.region}
-                      </span>
-                      <span
-                        className={
-                          styles["character-box__raid-item__clear-number"]
-                        }
-                      >
-                        {raid.clear ? "1 / 1" : "0 / 1"}
-                      </span>
+                        <span
+                          className={
+                            styles["character-box__raid-item__box__region-name"]
+                          }
+                        >
+                          {raid.region}
+                        </span>
+                        <span
+                          className={
+                            styles[
+                              "character-box__raid-item__box__clear-number"
+                            ]
+                          }
+                        >
+                          {raid.clear ? "1 / 1" : "0 / 1"}
+                        </span>
+                      </div>
+                      {toggleSetting ? (
+                        <div
+                          className={
+                            styles["character-box__raid-item__setting-box"]
+                          }
+                        >
+                          <button
+                            onClick={(e) => {
+                              showHandler(e);
+                            }}
+                            className={
+                              styles["character-box__raid-item__setting-btn"]
+                            }
+                          >
+                            <FontAwesomeIcon
+                              className={
+                                styles[
+                                  "character-box__raid-item__setting-btn__icon"
+                                ]
+                              }
+                              icon={faGear}
+                            />
+                          </button>
+                          <ul
+                            className={
+                              styles[
+                                "character-box__raid-item__setting-box__raid-list"
+                              ]
+                            }
+                          >
+                            {regionList
+                              .filter((region) => {
+                                const array = [];
+                                for (
+                                  let i = 0;
+                                  i < character.regionRaid.length;
+                                  i++
+                                ) {
+                                  if (
+                                    region === character.regionRaid[i].region
+                                  ) {
+                                    array.push(false);
+                                  } else {
+                                    array.push(true);
+                                  }
+                                }
+                                if (array.includes(false)) {
+                                  return false;
+                                } else {
+                                  return true;
+                                }
+                              })
+                              .map((nextRegion) => {
+                                return (
+                                  <li
+                                    key={nextRegion}
+                                    onClick={(e) => {
+                                      updatesRegion(
+                                        character.name,
+                                        raid.region,
+                                        nextRegion
+                                      );
+                                      onChangeRegion(
+                                        e,
+                                        charIndex,
+                                        raidIndex,
+                                        nextRegion
+                                      );
+                                    }}
+                                    className={
+                                      styles[
+                                        "character-box__raid-item__setting-box__raid-item"
+                                      ]
+                                    }
+                                  >
+                                    {nextRegion}
+                                  </li>
+                                );
+                              })}
+                          </ul>
+                        </div>
+                      ) : null}
                     </li>
                   );
                 })}
@@ -192,6 +311,18 @@ function RegionPage() {
             </li>
           ))}
       </ul>
+      <label className={styles["switch"]}>
+        <input
+          id="switch-input"
+          type="checkbox"
+          onClick={ontoggleSetting}
+          className={styles["switch-input"]}
+        />
+        <FontAwesomeIcon
+          className={styles["switch-input__icon"]}
+          icon={faGear}
+        />
+      </label>
     </div>
   );
 }
