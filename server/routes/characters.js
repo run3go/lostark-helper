@@ -1,6 +1,8 @@
 const express = require("express");
+const Mongoose = require("mongoose");
+const ObjectId = Mongoose.Types.ObjectId;
 const router = express.Router();
-const { Character } = require("../models/Character");
+const { Character, setDate, resetByDate } = require("../models/Character");
 const axios = require("axios");
 const cheerio = require("cheerio");
 
@@ -35,7 +37,6 @@ router.post("/saveCharacters", (req, res) => {
         const character = new Character(characterInfo);
 
         character.save((err, doc) => {
-          console.log(doc);
           if (err) return res.status(400).send(err);
         });
         //캐릭터를 DB에 저장합니다.
@@ -104,31 +105,34 @@ router.post("/updateClear", (req, res) => {
 });
 
 router.post("/updateRegion", (req, res) => {
-  const { name, currentRegion, nextRegion, userId } = req.body;
+  const { char, currentRegion, regionName, regionId, userId } = req.body;
   Character.updateOne(
-    { user: userId, name: name, "regionRaid.region": currentRegion },
+    { user: userId, name: char, "regionRaid.region": currentRegion },
     {
       $set: {
-        "regionRaid.$.region": nextRegion,
+        "regionRaid.$.region": regionName,
+        "regionRaid.$.id": regionId,
       },
     }
-  )
-    .update()
-    .exec((err, doc) => {
+  ).exec((err) => {
+    if (err) return res.status(400).send(err);
+    Character.findOne({ user: userId, name: char }).exec((err, doc) => {
+      const sortArray = doc.regionRaid.sort((a, b) => a.id - b.id);
       if (err) return res.status(400).send(err);
-      res.status(200).json({ nextRegion });
+      res.status(200).json({ sortArray });
     });
+  });
 });
 
-router.post("/getCharactersInfo", (req, res) => {
+router.post("/getCharactersInfo", setDate, resetByDate, (req, res) => {
   Character.find({ user: req.body.userId })
     .sort({ level: -1 })
-    .exec((err, data) => {
+    .exec((err, character) => {
       if (err) return res.status(400).send(err);
-      if (data.length === 0) {
+      if (character.length === 0) {
         res.status(200).json({ success: false });
       } else {
-        res.status(200).json({ success: true, data });
+        res.status(200).json({ success: true, character });
       }
     });
 });

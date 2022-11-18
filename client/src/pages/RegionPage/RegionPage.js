@@ -20,15 +20,15 @@ function RegionPage() {
   const [toggleSetting, setToggleSetting] = useState(false);
 
   const regionList = [
-    "발탄",
-    "비아키스",
-    "쿠크세이튼",
-    "아브렐슈드",
-    "일리아칸",
+    { id: 0, name: "발탄" },
+    { id: 1, name: "비아키스" },
+    { id: 2, name: "쿠크세이튼" },
+    { id: 3, name: "아브렐슈드" },
+    { id: 4, name: "일리아칸" },
   ];
 
-  const showHandler = (event) => {
-    const ulElement = event.currentTarget.nextElementSibling;
+  const showHandler = (e) => {
+    const ulElement = e.currentTarget.nextElementSibling;
     const compStyles = window.getComputedStyle(ulElement);
     if (compStyles.getPropertyValue("display") === "none") {
       ulElement.style.display = "block";
@@ -46,8 +46,8 @@ function RegionPage() {
     dispatch(updateClear(dataToSubmit));
   };
 
-  const updatesRegion = (name, currentRegion, nextRegion) => {
-    const dataToSubmit = { name, currentRegion, nextRegion, userId };
+  const updatesRegion = (char, currentRegion, regionName, regionId) => {
+    const dataToSubmit = { char, currentRegion, regionName, regionId, userId };
     dispatch(updateRegion(dataToSubmit));
   };
 
@@ -56,15 +56,15 @@ function RegionPage() {
     dispatch(setClear(dataToSubmit));
   };
 
-  const onChangeRegion = (event, charIndex, raidIndex, nextRegion) => {
-    const dataToSubmit = { charIndex, raidIndex, nextRegion };
+  const onChangeRegion = (e, charIndex, raidIndex, name) => {
+    const dataToSubmit = { charIndex, raidIndex, name };
     dispatch(setRegion(dataToSubmit));
-    const ulElement = event.currentTarget.parentElement;
+    const ulElement = e.currentTarget.parentElement;
     ulElement.style.display = "none";
   };
 
   const getTotalClear = () => {
-    const totalClearRaid = characters.info.data.reduce(
+    const totalClearRaid = characters.info.character.reduce(
       (ac, current, index, array) => {
         const clearRaid = current.regionRaid.filter((raid) => {
           return raid.clear === true;
@@ -75,7 +75,7 @@ function RegionPage() {
       0
     );
 
-    const totalRaid = characters.info.data.reduce(
+    const totalRaid = characters.info.character.reduce(
       (ac, current, index, array) => {
         ac = ac + current.regionRaid.length;
         return ac;
@@ -97,7 +97,7 @@ function RegionPage() {
   };
 
   const getRegionClear = (region) => {
-    const clearTimes = characters.info.data.filter((character) => {
+    const clearTimes = characters.info.character.filter((character) => {
       const clearRaid = character.regionRaid.filter((raid) => {
         if (raid.region === region) {
           return raid.clear === true;
@@ -107,7 +107,7 @@ function RegionPage() {
       return clearRaid === 1;
     }).length;
 
-    const allTargetRaid = characters.info.data.filter((character) => {
+    const allTargetRaid = characters.info.character.filter((character) => {
       const targetRaid = character.regionRaid.filter((raid) => {
         return raid.region === region;
       }).length;
@@ -168,14 +168,14 @@ function RegionPage() {
         {isFetched && (
           <ul className={styles["region-box__list"]}>
             {regionList.map((region) => {
-              return getRegionClear(region);
+              return getRegionClear(region.name);
             })}
           </ul>
         )}
       </div>
       <ul className={styles["character-wrap"]}>
         {isFetched &&
-          characters.info.data.map((character, charIndex) => (
+          characters.info.character.map((character, charIndex) => (
             <li
               key={charIndex}
               className={`${styles["character-box"]} ${styles["todo-contents"]}`}
@@ -261,7 +261,8 @@ function RegionPage() {
                                   i++
                                 ) {
                                   if (
-                                    region === character.regionRaid[i].region
+                                    region.name ===
+                                    character.regionRaid[i].region
                                   ) {
                                     array.push(false);
                                   } else {
@@ -274,21 +275,22 @@ function RegionPage() {
                                   return true;
                                 }
                               })
-                              .map((nextRegion) => {
+                              .map((region) => {
                                 return (
                                   <li
-                                    key={nextRegion}
+                                    key={region.id}
                                     onClick={(e) => {
                                       updatesRegion(
                                         character.name,
                                         raid.region,
-                                        nextRegion
+                                        region.name,
+                                        region.id
                                       );
                                       onChangeRegion(
                                         e,
                                         charIndex,
                                         raidIndex,
-                                        nextRegion
+                                        region.name
                                       );
                                     }}
                                     className={
@@ -297,7 +299,7 @@ function RegionPage() {
                                       ]
                                     }
                                   >
-                                    {nextRegion}
+                                    {region.name}
                                   </li>
                                 );
                               })}

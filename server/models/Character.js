@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const moment = require("moment");
-const e = require("express");
 
 const characterSchema = mongoose.Schema({
   user: {
@@ -35,9 +34,20 @@ const characterSchema = mongoose.Schema({
     type: Array,
   },
 
+  DateToReset: {
+    type: String,
+    default: () => {
+      const dayOfWeek = moment().format("DDD");
+      if (dayOfWeek === "Monday" || dayOfWeek === "Tuesday") {
+        return moment().day(3).toDate();
+      }
+      return moment().day(10).toDate();
+    },
+  },
+
   updatedAt: {
     type: String,
-    default: () => moment().format("dddd YYYY-MM-DD HH:mm:ss"),
+    default: () => moment().toDate(),
   },
 });
 
@@ -76,6 +86,30 @@ characterSchema.pre("save", function (next) {
   }
 });
 
+let setDate = (req, res, next) => {
+  const { userId } = req.body;
+  Character.updateMany(
+    { user: userId },
+    { $set: { updatedAt: moment().toDate() } }
+  ).exec((err, user) => {
+    if (err) throw err;
+  });
+  next();
+};
+
+let resetByDate = (req, res, next) => {
+  const { userId } = req.body;
+  Character.find({ user: userId }).exec((err, info) => {
+    if (moment().isSameOrAfter(info.DateToReset)) {
+      Character.updateMany(
+        { user: userId },
+        { $set: { DateToReset: moment().day(10).toDate() } }
+      );
+    }
+  });
+  next();
+};
+
 const Character = mongoose.model("Character", characterSchema);
 
-module.exports = { Character };
+module.exports = { Character, setDate, resetByDate };

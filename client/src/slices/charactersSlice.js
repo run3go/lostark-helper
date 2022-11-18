@@ -11,11 +11,11 @@ export const charactersSlice = createSlice({
   reducers: {
     setClear: (state, { payload }) => {
       const { charIndex, raidIndex, clear } = payload;
-      state.info.data[charIndex].regionRaid[raidIndex].clear = !clear;
+      state.info.character[charIndex].regionRaid[raidIndex].clear = !clear;
     },
     setRegion: (state, { payload }) => {
-      const { charIndex, raidIndex, nextRegion } = payload;
-      state.info.data[charIndex].regionRaid[raidIndex].region = nextRegion;
+      const { charIndex, raidIndex, name } = payload;
+      state.info.character[charIndex].regionRaid[raidIndex].region = name;
     },
   },
   extraReducers: (builder) => {
