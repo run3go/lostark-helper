@@ -90,7 +90,11 @@ let setDate = (req, res, next) => {
   const { userId } = req.body;
   Character.updateMany(
     { user: userId },
-    { $set: { updatedAt: moment().toDate() } }
+    {
+      $set: {
+        updatedAt: moment().toDate(),
+      },
+    }
   ).exec((err, user) => {
     if (err) throw err;
   });
@@ -103,7 +107,12 @@ let resetByDate = (req, res, next) => {
     if (moment().isSameOrAfter(info.DateToReset)) {
       Character.updateMany(
         { user: userId },
-        { $set: { DateToReset: moment().day(10).toDate() } }
+        {
+          $set: {
+            DateToReset: moment().day(10).toDate(),
+            "regionRaid.$[].clear": false,
+          },
+        }
       );
     }
   });

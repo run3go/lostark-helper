@@ -130,12 +130,11 @@ function RegionPage() {
   };
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
     const dataToSubmit = { userId };
     dispatch(getCharacters(dataToSubmit)).then((res) => {
       setIsFetched(true);
     });
-  }, [dispatch]);
+  }, [dispatch, userId]);
 
   if (characters.loading) {
     return (

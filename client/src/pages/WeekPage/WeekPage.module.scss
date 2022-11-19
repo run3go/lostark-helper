@@ -1,0 +1,44 @@
+@import "../../styles/common.scss";
+
+.lds-spinner {
+  display: block;
+  margin: 0 auto;
+  top: 50%;
+  transform: translateY(-50%);
+
+  div:after {
+    background: $color-main;
+  }
+}
+
+.container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  padding: 40px;
+  height: calc(100vh - 58.4px);
+  background: rgb(250, 250, 250);
+
+  .todo-contents {
+    background: #fff;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+    &__title {
+      display: block;
+      padding: 13px;
+      background: $color-title;
+      font-size: 14px;
+      color: #fff;
+    }
+  }
+
+  .expedition-box {
+    width: 800px;
+  }
+
+  .character-box {
+    width: 200px;
+  }
+}
