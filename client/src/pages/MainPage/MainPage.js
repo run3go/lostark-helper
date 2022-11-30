@@ -41,7 +41,10 @@ function MainPage() {
       <div className={`${styles["today-content"]} ${styles["todo-contents"]}`}>
         <h1 className={styles["todo-contents__title"]}>Today</h1>
       </div>
-      <div className={`${styles["week-content"]} ${styles["todo-contents"]}`}>
+      <div
+        onClick={() => navigate("/todo/week")}
+        className={`${styles["week-content"]} ${styles["todo-contents"]}`}
+      >
         <h1 className={styles["todo-contents__title"]}>This Week</h1>
       </div>
       <div

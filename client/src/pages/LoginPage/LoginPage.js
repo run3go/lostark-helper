@@ -36,7 +36,7 @@ function LoginPage() {
           userId,
         };
         dispatch(getCharacters(dataToSubmit)).then((response) => {
-          if (response.payload.data) {
+          if (response.payload.success) {
             navigate("/todo/main");
           } else {
             navigate("/");

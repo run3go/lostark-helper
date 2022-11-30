@@ -89,7 +89,7 @@ router.post("/getCharacterList", async (req, res) => {
   }
 });
 
-router.post("/updateClear", (req, res) => {
+router.post("/updateRaidClear", (req, res) => {
   const { region, name, clear, userId } = req.body;
   Character.updateOne(
     { user: userId, name: name, "regionRaid.region": region },
@@ -116,11 +116,7 @@ router.post("/updateRegion", (req, res) => {
     }
   ).exec((err) => {
     if (err) return res.status(400).send(err);
-    Character.findOne({ user: userId, name: char }).exec((err, doc) => {
-      const sortArray = doc.regionRaid.sort((a, b) => a.id - b.id);
-      if (err) return res.status(400).send(err);
-      res.status(200).json({ sortArray });
-    });
+    res.status(200).json({ success: true });
   });
 });
 

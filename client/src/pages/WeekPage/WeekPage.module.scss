@@ -1,5 +1,17 @@
 @import "../../styles/common.scss";
 
+@mixin item-box($padding, $border-property) {
+  position: relative;
+  padding: $padding;
+  cursor: pointer;
+  #{$border-property}: 1px solid #e6e6e6;
+  text-align: center;
+
+  &:hover {
+    background: $color-sub;
+  }
+}
+
 .lds-spinner {
   display: block;
   margin: 0 auto;
@@ -35,10 +47,72 @@
   }
 
   .expedition-box {
-    width: 800px;
+    width: 200px;
+    &__list {
+    }
+
+    &__item--active {
+      @include item-box(20px, border-bottom);
+      color: $color-main;
+      font-weight: bold;
+      opacity: 0.5;
+      background: $color-sub;
+      box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+
+      &:hover {
+        opacity: 1;
+        background: rgba(78, 148, 79, 0.3);
+        color: $color-main;
+      }
+    }
+
+    &__item {
+      @include item-box(20px, border-bottom);
+
+      &__rm-btn {
+        position: absolute;
+        top: 8px;
+        right: 6px;
+
+        color: #999;
+        &:hover {
+          color: #666;
+        }
+      }
+
+      &:last-child {
+        &:hover {
+          background: none;
+
+          .add-btn {
+            color: #777;
+          }
+        }
+      }
+
+      &__todo-text {
+      }
+
+      &__todo-clear {
+      }
+
+      &__add-btn {
+        transform: scale(1.5);
+        color: #e6e6e6;
+        &:hover {
+          color: #999;
+        }
+      }
+      &__add-input {
+        display: none;
+        margin: 0 auto;
+        border: none;
+        text-align: center;
+      }
+    }
   }
 
   .character-box {
-    width: 200px;
+    width: 800px;
   }
 }

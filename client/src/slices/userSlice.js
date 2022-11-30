@@ -8,7 +8,12 @@ const initialState = {
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducer: {},
+  reducers: {
+    setTodoClear: (state, { payload }) => {
+      const { clear, index } = payload;
+      state.userData.weeklyToDo[index].clear = !clear;
+    },
+  },
   extraReducers: (builder) => {
     builder
       //registerUser
@@ -58,6 +63,30 @@ export const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(logoutUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        console.log(payload);
+      })
+      //addTodo
+      .addCase(addTodo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addTodo.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.userData.weeklyToDo.push(payload.data);
+      })
+      .addCase(addTodo.rejected, (state, { payload }) => {
+        state.loading = false;
+        console.log(payload);
+      })
+      //removeTodo
+      .addCase(removeTodo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(removeTodo.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.userData.weeklyToDo.splice(payload.index, 1);
+      })
+      .addCase(removeTodo.rejected, (state, { payload }) => {
         state.loading = false;
         console.log(payload);
       });
@@ -114,5 +143,34 @@ export const logoutUser = createAsyncThunk(
     }
   }
 );
+
+export const addTodo = createAsyncThunk(
+  "users/addTodo",
+  async (dataToSubmit, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${USER_SERVER}/addTodo`, dataToSubmit);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const removeTodo = createAsyncThunk(
+  "users/removeTodo",
+  async (dataToSubmit, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${USER_SERVER}/removeTodo`,
+        dataToSubmit
+      );
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const { setTodoClear } = userSlice.actions;
 
 export default userSlice.reducer;

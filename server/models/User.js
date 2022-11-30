@@ -28,6 +28,15 @@ const userSchema = mongoose.Schema(
     tokenExp: {
       type: Number,
     },
+    weeklyToDo: {
+      type: Array,
+      default: () => {
+        return [
+          { todo: "도전 어비스 던전", clear: false },
+          { todo: "도전 가디언 레이드", clear: false },
+        ];
+      },
+    },
   },
   { timestamps: true }
 );

@@ -90,3 +90,28 @@ $color-title: #86b884;
 @import "../assets/scss/fontawesome.scss";
 @import "../assets/scss/solid.scss";
 @import "../assets/scss/regular.scss";
+
+//setting-switch
+
+.switch {
+  cursor: pointer;
+  padding-top: 0px;
+  width: 35px;
+  height: 35px;
+  background: $color-main;
+  text-align: center;
+  &-input {
+    display: none;
+    cursor: pointer;
+
+    &:checked ~ .switch-input__icon {
+      transform: scale(1.7) translateY(3px) rotate(90deg);
+    }
+
+    &__icon {
+      color: #fff;
+      transform: translateY(5px);
+      transition: all ease 0.5s;
+    }
+  }
+}

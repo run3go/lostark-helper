@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCharacters,
-  setClear,
+  setRaidClear,
   setRegion,
-  updateClear,
-  updateRegion,
 } from "../../slices/charactersSlice";
 import styles from "./RegionPage.module.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { CHARACTER_SERVER } from "../../components/Config";
 function RegionPage() {
   const dispatch = useDispatch();
   const characters = useSelector((state) => state.characters);
@@ -27,6 +27,7 @@ function RegionPage() {
     { id: 4, name: "일리아칸" },
   ];
 
+  //군단장 변경 창 on/off
   const showHandler = (e) => {
     const ulElement = e.currentTarget.nextElementSibling;
     const compStyles = window.getComputedStyle(ulElement);
@@ -36,28 +37,28 @@ function RegionPage() {
       ulElement.style.display = "none";
     }
   };
-
+  //설정 아이콘 on/off
   const ontoggleSetting = () => {
     setToggleSetting(!toggleSetting);
   };
 
-  const updateRaidClear = (name, region, clear) => {
+  const updateClear = async (name, region, clear) => {
     const dataToSubmit = { name, region, clear, userId };
-    dispatch(updateClear(dataToSubmit));
+    await axios.post(`${CHARACTER_SERVER}/updateRaidClear`, dataToSubmit);
   };
 
-  const updatesRegion = (char, currentRegion, regionName, regionId) => {
+  const updateRaid = async (char, currentRegion, regionName, regionId) => {
     const dataToSubmit = { char, currentRegion, regionName, regionId, userId };
-    dispatch(updateRegion(dataToSubmit));
+    await axios.post(`${CHARACTER_SERVER}/updateRegion`, dataToSubmit);
   };
 
-  const onChangeClear = (charIndex, raidIndex, clear) => {
+  const setClear = (charIndex, raidIndex, clear) => {
     const dataToSubmit = { charIndex, raidIndex, clear };
-    dispatch(setClear(dataToSubmit));
+    dispatch(setRaidClear(dataToSubmit));
   };
 
-  const onChangeRegion = (e, charIndex, raidIndex, name) => {
-    const dataToSubmit = { charIndex, raidIndex, name };
+  const setRaid = (e, charIndex, raidIndex, name, id) => {
+    const dataToSubmit = { charIndex, raidIndex, name, id };
     dispatch(setRegion(dataToSubmit));
     const ulElement = e.currentTarget.parentElement;
     ulElement.style.display = "none";
@@ -130,12 +131,14 @@ function RegionPage() {
   };
 
   useEffect(() => {
+    //캐릭터 정보 가져옴
     const dataToSubmit = { userId };
     dispatch(getCharacters(dataToSubmit)).then((res) => {
       setIsFetched(true);
     });
   }, [dispatch, userId]);
 
+  //로딩 화면
   if (characters.loading) {
     return (
       <div className={styles["lds-spinner"]}>
@@ -191,12 +194,8 @@ function RegionPage() {
                     >
                       <div
                         onClick={() => {
-                          updateRaidClear(
-                            character.name,
-                            raid.region,
-                            raid.clear
-                          );
-                          onChangeClear(charIndex, raidIndex, raid.clear);
+                          updateClear(character.name, raid.region, raid.clear);
+                          setClear(charIndex, raidIndex, raid.clear);
                         }}
                         className={
                           raid.clear
@@ -279,17 +278,18 @@ function RegionPage() {
                                   <li
                                     key={region.id}
                                     onClick={(e) => {
-                                      updatesRegion(
+                                      updateRaid(
                                         character.name,
                                         raid.region,
                                         region.name,
                                         region.id
                                       );
-                                      onChangeRegion(
+                                      setRaid(
                                         e,
                                         charIndex,
                                         raidIndex,
-                                        region.name
+                                        region.name,
+                                        region.id
                                       );
                                     }}
                                     className={
