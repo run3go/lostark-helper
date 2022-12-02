@@ -37,6 +37,16 @@ const userSchema = mongoose.Schema(
         ];
       },
     },
+    DateToReset: {
+      type: String,
+      default: () => {
+        const dayOfWeek = moment().format("ddd");
+        if (dayOfWeek === "Mon" || dayOfWeek === "Tue") {
+          return moment().day(3).toDate().toISOString();
+        }
+        return moment().day(10).toDate().toISOString();
+      },
+    },
   },
   { timestamps: true }
 );

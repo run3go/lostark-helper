@@ -34,17 +34,6 @@ const characterSchema = mongoose.Schema({
     type: Array,
   },
 
-  DateToReset: {
-    type: String,
-    default: () => {
-      const dayOfWeek = moment().format("DDD");
-      if (dayOfWeek === "Monday" || dayOfWeek === "Tuesday") {
-        return moment().day(3).toDate();
-      }
-      return moment().day(10).toDate();
-    },
-  },
-
   updatedAt: {
     type: String,
     default: () => moment().toDate(),
@@ -101,24 +90,6 @@ let setDate = (req, res, next) => {
   next();
 };
 
-let resetByDate = (req, res, next) => {
-  const { userId } = req.body;
-  Character.find({ user: userId }).exec((err, info) => {
-    if (moment().isSameOrAfter(info.DateToReset)) {
-      Character.updateMany(
-        { user: userId },
-        {
-          $set: {
-            DateToReset: moment().day(10).toDate(),
-            "regionRaid.$[].clear": false,
-          },
-        }
-      );
-    }
-  });
-  next();
-};
-
 const Character = mongoose.model("Character", characterSchema);
 
-module.exports = { Character, setDate, resetByDate };
+module.exports = { Character, setDate };

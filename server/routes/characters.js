@@ -1,10 +1,10 @@
 const express = require("express");
 const Mongoose = require("mongoose");
-const ObjectId = Mongoose.Types.ObjectId;
 const router = express.Router();
-const { Character, setDate, resetByDate } = require("../models/Character");
+const { Character, setDate } = require("../models/Character");
 const axios = require("axios");
 const cheerio = require("cheerio");
+const { resetByDate } = require("../middleware/resetByDate");
 
 //=================================
 //             Character
