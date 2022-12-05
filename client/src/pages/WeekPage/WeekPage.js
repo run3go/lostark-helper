@@ -107,12 +107,47 @@ function WeekPage() {
     <div className={styles["container"]}>
       <div className={`${styles["todo-contents"]} ${styles["character-box"]}`}>
         <h1 className={styles["todo-contents__title"]}>캐릭터</h1>
+        <table>
+          <thead>
+            <tr>
+              <th className={styles["todo-contents__table-header"]}></th>
+              {isFetched &&
+                characters.info.character.map((el, index) => (
+                  <th
+                    key={index}
+                    className={styles["todo-contents__table-header"]}
+                  >
+                    {el.name}
+                  </th>
+                ))}
+            </tr>
+          </thead>
+          <tbody>
+            {isFetched &&
+              characters.info.character[0].weeklyCharTodo.map((el) => (
+                <tr key={el.todo}>
+                  <td className={styles["todo-contents__table-cell"]}>
+                    {el.todo}
+                  </td>
+                  {isFetched &&
+                    characters.info.character.map((elem, index) => (
+                      <td
+                        key={elem.name}
+                        className={styles["todo-contents__table-cell"]}
+                      >
+                        {elem.weeklyCharTodo.clear ? "1/1" : "0/1"}
+                      </td>
+                    ))}
+                </tr>
+              ))}
+          </tbody>
+        </table>
       </div>
       <div className={`${styles["todo-contents"]} ${styles["expedition-box"]}`}>
         <h1 className={styles["todo-contents__title"]}>원정대</h1>
         <ul className={styles["expedition-box__list"]}>
           {isFetched &&
-            user.userData.weeklyToDo.map((el, index) => (
+            user.userData.weeklyExpTodo.map((el, index) => (
               <li
                 onClick={() => {
                   updateExpClear(el.todo, el.clear, index);

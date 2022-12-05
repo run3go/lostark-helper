@@ -19,6 +19,7 @@ let resetByDate = (req, res, next) => {
           { _id: userId },
           {
             $set: {
+              "weeklyExpTodo.$[].clear": false,
               DateToReset: moment().day(10).toDate().toISOString(),
             },
           }

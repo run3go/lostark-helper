@@ -54,7 +54,7 @@ router.get("/auth", auth, (req, res) => {
     isAuth: true,
     email: req.user.email,
     isAdmin: req.user.role === 0 ? false : true,
-    weeklyToDo: req.user.weeklyToDo,
+    weeklyExpTodo: req.user.weeklyExpTodo,
   });
 });
 
@@ -72,8 +72,8 @@ router.get("/logout", auth, (req, res) => {
 router.post("/updateTodoClear", (req, res) => {
   const { todo, clear, userId, index } = req.body;
   User.updateOne(
-    { _id: userId, "weeklyToDo.todo": todo },
-    { $set: { "weeklyToDo.$.clear": !clear } }
+    { _id: userId, "weeklyExpTodo.todo": todo },
+    { $set: { "weeklyExpTodo.$.clear": !clear } }
   ).exec((err, doc) => {
     if (err) return res.status(400).send(err);
     return res.status(200).json({ success: true });
@@ -86,7 +86,7 @@ router.post("/addTodo", (req, res) => {
     todo,
     clear: false,
   };
-  User.updateOne({ _id: userId }, { $push: { weeklyToDo: data } }).exec(
+  User.updateOne({ _id: userId }, { $push: { weeklyExpTodo: data } }).exec(
     (err, doc) => {
       if (err) return res.status(400).send(err);
       return res.status(200).json({ data });
@@ -100,7 +100,7 @@ router.post("/removeTodo", (req, res) => {
     todo,
     clear,
   };
-  User.updateOne({ _id: userId }, { $pull: { weeklyToDo: data } }).exec(
+  User.updateOne({ _id: userId }, { $pull: { weeklyExpTodo: data } }).exec(
     (err, doc) => {
       if (err) return res.status(400).send(err);
       return res.status(200).json({ data, index });

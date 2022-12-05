@@ -28,7 +28,7 @@ const userSchema = mongoose.Schema(
     tokenExp: {
       type: Number,
     },
-    weeklyToDo: {
+    weeklyExpTodo: {
       type: Array,
       default: () => {
         return [

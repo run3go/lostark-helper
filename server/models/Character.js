@@ -38,6 +38,16 @@ const characterSchema = mongoose.Schema({
     type: String,
     default: () => moment().toDate(),
   },
+
+  weeklyCharTodo: {
+    type: Array,
+    default: () => {
+      return [
+        { todo: "어비스 던전", disabled: false, clear: false },
+        { todo: "어비스 레이드", disabled: false, clear: false },
+      ];
+    },
+  },
 });
 
 characterSchema.pre("save", function (next) {
