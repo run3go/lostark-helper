@@ -53,13 +53,63 @@
       font-size: 14px;
       color: #fff;
     }
+  }
 
+  .character-box {
     &__table-header {
       @include table-cell();
     }
 
-    &__table-cell {
+    &__table-cell-title {
+      position: relative;
       @include table-cell();
+    }
+
+    &__table-cell {
+      cursor: pointer;
+      @include table-cell();
+
+      &:hover {
+        background: $color-sub;
+      }
+    }
+
+    &__rm-btn {
+      cursor: pointer;
+      position: absolute;
+      top: 28px;
+      left: -30px;
+
+      color: #999;
+      &:hover {
+        color: #666;
+      }
+    }
+
+    &__add-btn-wrap {
+      cursor: pointer;
+      padding: 25px 0;
+      border-bottom: 1px solid #e6e6e6;
+      width: 100%;
+      text-align: center;
+
+      &:hover {
+        border: 0.5px solid #999;
+      }
+      &:hover .character-box__add-btn {
+        color: #999;
+      }
+    }
+
+    &__add-btn {
+      color: #e6e6e6;
+      transform: scale(1.5);
+    }
+
+    &__add-input {
+      display: none;
+      margin: 0 auto;
+      text-align: center;
     }
   }
 

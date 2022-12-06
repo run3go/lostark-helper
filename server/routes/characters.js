@@ -133,4 +133,67 @@ router.post("/getCharactersInfo", setDate, resetByDate, (req, res) => {
     });
 });
 
+router.post("/addChar", (req, res) => {
+  const { userId, todo } = req.body;
+  const data = {
+    todo,
+    disabled: false,
+    clear: false,
+  };
+  Character.updateMany(
+    {
+      user: userId,
+    },
+    {
+      $push: {
+        weeklyCharTodo: data,
+      },
+    }
+  ).exec((err, doc) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).json({ data });
+  });
+});
+
+router.post("/removeChar", (req, res) => {
+  const { userId, todo } = req.body;
+  const data = {
+    todo,
+    disabled: false,
+    clear: false,
+  };
+  Character.updateMany(
+    {
+      user: userId,
+    },
+    {
+      $pull: {
+        weeklyCharTodo: data,
+      },
+    }
+  ).exec((err, doc) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).json({ success: true });
+  });
+});
+
+router.post("/updateCharClear", (req, res) => {
+  const { name, todo, clear, userId } = req.body;
+  Character.updateOne(
+    {
+      user: userId,
+      name,
+      "weeklyCharTodo.todo": todo,
+    },
+    {
+      $set: {
+        "weeklyCharTodo.$.clear": !clear,
+      },
+    }
+  ).exec((err, doc) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).json({ name, todo, clear: !clear });
+  });
+});
+
 module.exports = router;

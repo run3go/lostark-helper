@@ -71,6 +71,7 @@ router.get("/logout", auth, (req, res) => {
 
 router.post("/updateTodoClear", (req, res) => {
   const { todo, clear, userId, index } = req.body;
+  console.log("hi");
   User.updateOne(
     { _id: userId, "weeklyExpTodo.todo": todo },
     { $set: { "weeklyExpTodo.$.clear": !clear } }
@@ -80,7 +81,7 @@ router.post("/updateTodoClear", (req, res) => {
   });
 });
 
-router.post("/addTodo", (req, res) => {
+router.post("/addExp", (req, res) => {
   const { todo, userId } = req.body;
   const data = {
     todo,
@@ -94,7 +95,7 @@ router.post("/addTodo", (req, res) => {
   );
 });
 
-router.post("/removeTodo", (req, res) => {
+router.post("/removeExp", (req, res) => {
   const { todo, clear, userId, index } = req.body;
   const data = {
     todo,

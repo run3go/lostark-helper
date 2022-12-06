@@ -11,7 +11,7 @@ export const userSlice = createSlice({
   reducers: {
     setTodoClear: (state, { payload }) => {
       const { clear, index } = payload;
-      state.userData.weeklyToDo[index].clear = !clear;
+      state.userData.weeklyExpTodo[index].clear = !clear;
     },
   },
   extraReducers: (builder) => {
@@ -66,27 +66,29 @@ export const userSlice = createSlice({
         state.loading = false;
         console.log(payload);
       })
-      //addTodo
-      .addCase(addTodo.pending, (state) => {
+
+      //addExp
+      .addCase(addExp.pending, (state) => {
         state.loading = true;
       })
-      .addCase(addTodo.fulfilled, (state, { payload }) => {
+      .addCase(addExp.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.userData.weeklyToDo.push(payload.data);
+        state.userData.weeklyExpTodo.push(payload.data);
       })
-      .addCase(addTodo.rejected, (state, { payload }) => {
+      .addCase(addExp.rejected, (state, { payload }) => {
         state.loading = false;
         console.log(payload);
       })
-      //removeTodo
-      .addCase(removeTodo.pending, (state) => {
+
+      //removeExp
+      .addCase(removeExp.pending, (state) => {
         state.loading = true;
       })
-      .addCase(removeTodo.fulfilled, (state, { payload }) => {
+      .addCase(removeExp.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.userData.weeklyToDo.splice(payload.index, 1);
+        state.userData.weeklyExpTodo.splice(payload.index, 1);
       })
-      .addCase(removeTodo.rejected, (state, { payload }) => {
+      .addCase(removeExp.rejected, (state, { payload }) => {
         state.loading = false;
         console.log(payload);
       });
@@ -144,11 +146,11 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
-export const addTodo = createAsyncThunk(
-  "users/addTodo",
+export const addExp = createAsyncThunk(
+  "users/addExp",
   async (dataToSubmit, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${USER_SERVER}/addTodo`, dataToSubmit);
+      const response = await axios.post(`${USER_SERVER}/addExp`, dataToSubmit);
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response.data.message);
@@ -156,12 +158,12 @@ export const addTodo = createAsyncThunk(
   }
 );
 
-export const removeTodo = createAsyncThunk(
-  "users/removeTodo",
+export const removeExp = createAsyncThunk(
+  "users/removeExp",
   async (dataToSubmit, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${USER_SERVER}/removeTodo`,
+        `${USER_SERVER}/removeExp`,
         dataToSubmit
       );
       return response.data;

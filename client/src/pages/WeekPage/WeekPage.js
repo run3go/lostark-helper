@@ -2,20 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./WeekPage.module.scss";
 
-import { addTodo, removeTodo, setTodoClear } from "../../slices/userSlice";
-import { getCharacters } from "../../slices/charactersSlice";
+import { addExp, removeExp, setTodoClear } from "../../slices/userSlice";
+import {
+  addChar,
+  getCharacters,
+  removeChar,
+  updateCharClear,
+} from "../../slices/charactersSlice";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCirclePlus,
+  faGear,
+  faCircleXmark,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { USER_SERVER } from "../../components/Config";
 import axios from "axios";
-
-// 원정대 : 도전 가디언 토벌, 도전 어비스 던전,
-// 캐릭터 : 어비스 레이드, 어비스 던전,
-// 커스텀 : 혈석 교환, 해적 주화 상점, 레이드 표식 교환, 카양겔 교환,
 
 function WeekPage() {
   const dispatch = useDispatch();
@@ -32,6 +36,7 @@ function WeekPage() {
   const ontoggleSetting = () => {
     setToggleSetting(!toggleSetting);
   };
+
   const updateExpClear = async (todo, clear, index) => {
     const dataToSubmit = { todo, clear, userId, index };
     await axios.post(`${USER_SERVER}/updateTodoClear`, dataToSubmit);
@@ -50,12 +55,29 @@ function WeekPage() {
     inputElement.focus();
   };
 
+  const addCharTodo = (event) => {
+    const dataToSubmit = {
+      todo: event.target.value,
+      userId,
+    };
+    console.log(dataToSubmit);
+    dispatch(addChar(dataToSubmit));
+  };
+
+  const removeCharTodo = (todo) => {
+    const dataToSubmit = {
+      todo,
+      userId,
+    };
+    dispatch(removeChar(dataToSubmit));
+  };
+
   const addExpTodo = (event) => {
     const dataToSubmit = {
       todo: event.target.value,
       userId,
     };
-    dispatch(addTodo(dataToSubmit)).then((res) => {
+    dispatch(addExp(dataToSubmit)).then((res) => {
       const liElement = event.target.parentNode;
       const iconElement = liElement.children[0];
       const inputElement = liElement.children[1];
@@ -72,7 +94,17 @@ function WeekPage() {
       userId,
       index,
     };
-    dispatch(removeTodo(dataToSubmit));
+    dispatch(removeExp(dataToSubmit));
+  };
+
+  const setCharClear = (name, todo, clear) => {
+    const dataToSubmit = {
+      name,
+      todo,
+      clear,
+      userId,
+    };
+    dispatch(updateCharClear(dataToSubmit));
   };
 
   useEffect(() => {
@@ -110,12 +142,12 @@ function WeekPage() {
         <table>
           <thead>
             <tr>
-              <th className={styles["todo-contents__table-header"]}></th>
+              <th className={styles["character-box__table-header"]}></th>
               {isFetched &&
                 characters.info.character.map((el, index) => (
                   <th
                     key={index}
-                    className={styles["todo-contents__table-header"]}
+                    className={styles["character-box__table-header"]}
                   >
                     {el.name}
                   </th>
@@ -124,24 +156,63 @@ function WeekPage() {
           </thead>
           <tbody>
             {isFetched &&
-              characters.info.character[0].weeklyCharTodo.map((el) => (
+              characters.info.character[0].weeklyCharTodo.map((el, index) => (
                 <tr key={el.todo}>
-                  <td className={styles["todo-contents__table-cell"]}>
+                  <td className={styles["character-box__table-cell-title"]}>
                     {el.todo}
+                    {toggleSetting ? (
+                      <FontAwesomeIcon
+                        className={styles["character-box__rm-btn"]}
+                        icon={faCircleXmark}
+                        onClick={() => {
+                          removeCharTodo(el.todo);
+                        }}
+                      />
+                    ) : null}
                   </td>
                   {isFetched &&
-                    characters.info.character.map((elem, index) => (
+                    characters.info.character.map((elem) => (
                       <td
                         key={elem.name}
-                        className={styles["todo-contents__table-cell"]}
+                        className={styles["character-box__table-cell"]}
+                        onClick={() => {
+                          setCharClear(
+                            elem.name,
+                            elem.weeklyCharTodo[index].todo,
+                            elem.weeklyCharTodo[index].clear
+                          );
+                        }}
                       >
-                        {elem.weeklyCharTodo.clear ? "1/1" : "0/1"}
+                        {elem.weeklyCharTodo[index].clear ? (
+                          <FontAwesomeIcon icon={faCheck} />
+                        ) : null}
                       </td>
                     ))}
                 </tr>
               ))}
           </tbody>
         </table>
+        <div
+          className={styles["character-box__add-btn-wrap"]}
+          onClick={(e) => {
+            showInputHandler(e.currentTarget);
+          }}
+        >
+          <FontAwesomeIcon
+            className={styles["character-box__add-btn"]}
+            icon={faCirclePlus}
+          />
+          <input
+            className={styles["character-box__add-input"]}
+            type="text"
+            id="todo"
+            onKeyUp={(e) => {
+              if (window.event.keyCode === 13) {
+                addCharTodo(e);
+              }
+            }}
+          />
+        </div>
       </div>
       <div className={`${styles["todo-contents"]} ${styles["expedition-box"]}`}>
         <h1 className={styles["todo-contents__title"]}>원정대</h1>
