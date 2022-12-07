@@ -19,6 +19,26 @@ export const charactersSlice = createSlice({
       state.info.character[charIndex].regionRaid[raidIndex].id = id;
       state.info.character[charIndex].regionRaid.sort((a, b) => a.id - b.id);
     },
+    setCharClear: (state, { payload }) => {
+      const { name, todo, clear } = payload;
+      state.info.character
+        .find((el) => {
+          return el.name === name;
+        })
+        .weeklyCharTodo.find((el) => {
+          return el.todo === todo;
+        }).clear = !clear;
+    },
+    setDisabled: (state, { payload }) => {
+      const { name, todo, disabled } = payload;
+      state.info.character
+        .find((el) => {
+          return el.name === name;
+        })
+        .weeklyCharTodo.find((el) => {
+          return el.todo === todo;
+        }).disabled = !disabled;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -55,24 +75,12 @@ export const charactersSlice = createSlice({
       //removeChar
       .addCase(removeChar.fulfilled, (state, { payload }) => {
         state.loading = false;
+        state.info.character.forEach((el) => {
+          el.weeklyCharTodo.splice(payload.index, 1);
+        });
       })
       .addCase(removeChar.rejected, (state, { payload }) => {
         state.loading = false;
-        console.log(payload);
-      })
-
-      //updateCharClear
-      .addCase(updateCharClear.fulfilled, (state, { payload }) => {
-        console.log(payload);
-        state.info.character
-          .find((el) => {
-            return el.name === payload.name;
-          })
-          .weeklyCharTodo.find((el) => {
-            return el.todo === payload.todo;
-          }).clear = payload.clear;
-      })
-      .addCase(updateCharClear.rejected, (state, { payload }) => {
         console.log(payload);
       });
   },
@@ -123,21 +131,7 @@ export const removeChar = createAsyncThunk(
   }
 );
 
-export const updateCharClear = createAsyncThunk(
-  "characters/updateCharClear",
-  async (dataToSubmit, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        `${CHARACTER_SERVER}/updateCharClear`,
-        dataToSubmit
-      );
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err.response.data.message);
-    }
-  }
-);
-
-export const { setRaidClear, setRegion } = charactersSlice.actions;
+export const { setRaidClear, setRegion, setCharClear, setDisabled } =
+  charactersSlice.actions;
 
 export default charactersSlice.reducer;

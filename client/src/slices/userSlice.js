@@ -9,7 +9,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setTodoClear: (state, { payload }) => {
+    setExpClear: (state, { payload }) => {
       const { clear, index } = payload;
       state.userData.weeklyExpTodo[index].clear = !clear;
     },
@@ -173,6 +173,6 @@ export const removeExp = createAsyncThunk(
   }
 );
 
-export const { setTodoClear } = userSlice.actions;
+export const { setExpClear } = userSlice.actions;
 
 export default userSlice.reducer;

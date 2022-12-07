@@ -74,6 +74,15 @@
       }
     }
 
+    &__table-cell--disabled {
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.15);
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
+    }
+
     &__rm-btn {
       cursor: pointer;
       position: absolute;

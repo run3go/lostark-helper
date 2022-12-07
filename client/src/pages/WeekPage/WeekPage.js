@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./WeekPage.module.scss";
 
-import { addExp, removeExp, setTodoClear } from "../../slices/userSlice";
+import { addExp, removeExp, setExpClear } from "../../slices/userSlice";
 import {
   addChar,
   getCharacters,
   removeChar,
-  updateCharClear,
+  setCharClear,
+  setDisabled,
 } from "../../slices/charactersSlice";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +19,7 @@ import {
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { USER_SERVER } from "../../components/Config";
+import { CHARACTER_SERVER, USER_SERVER } from "../../components/Config";
 import axios from "axios";
 
 function WeekPage() {
@@ -30,23 +31,11 @@ function WeekPage() {
   const [isFetched, setIsFetched] = useState(false);
   const [toggleSetting, setToggleSetting] = useState(false);
 
-  //주간 원정대 숙제 클리어 여부 변경
-
   //설정 아이콘 on/off
   const ontoggleSetting = () => {
     setToggleSetting(!toggleSetting);
   };
-
-  const updateExpClear = async (todo, clear, index) => {
-    const dataToSubmit = { todo, clear, userId, index };
-    await axios.post(`${USER_SERVER}/updateTodoClear`, dataToSubmit);
-  };
-
-  const setExpClear = (clear, index) => {
-    const dataToSubmit = { clear, index };
-    dispatch(setTodoClear(dataToSubmit));
-  };
-
+  //Input / Icon 요소의 display 변경
   const showInputHandler = (el) => {
     const iconElement = el.children[0];
     const inputElement = el.children[1];
@@ -54,22 +43,11 @@ function WeekPage() {
     inputElement.style.display = "block";
     inputElement.focus();
   };
-
-  const addCharTodo = (event) => {
-    const dataToSubmit = {
-      todo: event.target.value,
-      userId,
-    };
-    console.log(dataToSubmit);
-    dispatch(addChar(dataToSubmit));
-  };
-
-  const removeCharTodo = (todo) => {
-    const dataToSubmit = {
-      todo,
-      userId,
-    };
-    dispatch(removeChar(dataToSubmit));
+  //원정대 할 일 추가/변경
+  const updateExpClear = async (todo, clear, index) => {
+    const dataToSubmit = { todo, clear, userId, index };
+    dispatch(setExpClear(dataToSubmit));
+    await axios.post(`${USER_SERVER}/updateTodoClear`, dataToSubmit);
   };
 
   const addExpTodo = (event) => {
@@ -78,9 +56,8 @@ function WeekPage() {
       userId,
     };
     dispatch(addExp(dataToSubmit)).then((res) => {
-      const liElement = event.target.parentNode;
-      const iconElement = liElement.children[0];
-      const inputElement = liElement.children[1];
+      const iconElement = event.target.previousSibling;
+      const inputElement = event.target;
       iconElement.style.display = "inline-block";
       inputElement.style.display = "none";
       inputElement.value = "";
@@ -96,15 +73,53 @@ function WeekPage() {
     };
     dispatch(removeExp(dataToSubmit));
   };
-
-  const setCharClear = (name, todo, clear) => {
+  //캐릭터 할 일 추가/변경
+  const updateCharClear = async (name, todo, clear) => {
     const dataToSubmit = {
       name,
       todo,
       clear,
       userId,
     };
-    dispatch(updateCharClear(dataToSubmit));
+    dispatch(setCharClear(dataToSubmit));
+    await axios.post(`${CHARACTER_SERVER}/updateCharClear`, dataToSubmit);
+  };
+
+  const updateDisabled = async (name, todo, disabled, clear) => {
+    const dataToSubmit = {
+      name,
+      todo,
+      disabled,
+      userId,
+    };
+    if (clear) {
+      updateCharClear(name, todo, clear);
+    }
+    dispatch(setDisabled(dataToSubmit));
+    await axios.post(`${CHARACTER_SERVER}/updateCharDisabled`, dataToSubmit);
+  };
+
+  const addCharTodo = (event) => {
+    const dataToSubmit = {
+      todo: event.target.value,
+      userId,
+    };
+    dispatch(addChar(dataToSubmit)).then((res) => {
+      const iconElement = event.target.previousSibling;
+      const inputElement = event.target;
+      iconElement.style.display = "inline-block";
+      inputElement.style.display = "none";
+      inputElement.value = "";
+    });
+  };
+
+  const removeCharTodo = (todo, index) => {
+    const dataToSubmit = {
+      todo,
+      index,
+      userId,
+    };
+    dispatch(removeChar(dataToSubmit));
   };
 
   useEffect(() => {
@@ -157,7 +172,7 @@ function WeekPage() {
           <tbody>
             {isFetched &&
               characters.info.character[0].weeklyCharTodo.map((el, index) => (
-                <tr key={el.todo}>
+                <tr key={index}>
                   <td className={styles["character-box__table-cell-title"]}>
                     {el.todo}
                     {toggleSetting ? (
@@ -165,7 +180,7 @@ function WeekPage() {
                         className={styles["character-box__rm-btn"]}
                         icon={faCircleXmark}
                         onClick={() => {
-                          removeCharTodo(el.todo);
+                          removeCharTodo(el.todo, index);
                         }}
                       />
                     ) : null}
@@ -174,11 +189,28 @@ function WeekPage() {
                     characters.info.character.map((elem) => (
                       <td
                         key={elem.name}
-                        className={styles["character-box__table-cell"]}
-                        onClick={() => {
-                          setCharClear(
+                        className={
+                          elem.weeklyCharTodo[index].disabled
+                            ? styles["character-box__table-cell--disabled"]
+                            : styles["character-box__table-cell"]
+                        }
+                        onClick={
+                          elem.weeklyCharTodo[index].disabled
+                            ? null
+                            : () => {
+                                updateCharClear(
+                                  elem.name,
+                                  elem.weeklyCharTodo[index].todo,
+                                  elem.weeklyCharTodo[index].clear
+                                );
+                              }
+                        }
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                          updateDisabled(
                             elem.name,
                             elem.weeklyCharTodo[index].todo,
+                            elem.weeklyCharTodo[index].disabled,
                             elem.weeklyCharTodo[index].clear
                           );
                         }}
@@ -222,7 +254,6 @@ function WeekPage() {
               <li
                 onClick={() => {
                   updateExpClear(el.todo, el.clear, index);
-                  setExpClear(el.clear, index);
                 }}
                 key={index}
                 className={

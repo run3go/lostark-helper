@@ -42,9 +42,9 @@ const userSchema = mongoose.Schema(
       default: () => {
         const dayOfWeek = moment().format("ddd");
         if (dayOfWeek === "Mon" || dayOfWeek === "Tue") {
-          return moment().day(3).toDate().toISOString();
+          return moment().hour(10).day(3).toDate().toISOString();
         }
-        return moment().day(10).toDate().toISOString();
+        return moment().hour(10).day(10).toDate().toISOString();
       },
     },
   },

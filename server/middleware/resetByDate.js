@@ -11,6 +11,7 @@ let resetByDate = (req, res, next) => {
         {
           $set: {
             "regionRaid.$[].clear": false,
+            "weeklyCharTodo.$[].clear": false,
           },
         }
       ).exec((err, doc) => {

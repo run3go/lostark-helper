@@ -156,24 +156,35 @@ router.post("/addChar", (req, res) => {
 });
 
 router.post("/removeChar", (req, res) => {
-  const { userId, todo } = req.body;
+  const { userId, todo, index } = req.body;
   const data = {
     todo,
     disabled: false,
     clear: false,
   };
   Character.updateMany(
+    { user: userId, "weeklyCharTodo.todo": todo },
     {
-      user: userId,
-    },
-    {
-      $pull: {
-        weeklyCharTodo: data,
+      $set: {
+        "weeklyCharTodo.$.clear": false,
+        "weeklyCharTodo.$.disabled": false,
       },
     }
   ).exec((err, doc) => {
     if (err) return res.status(400).send(err);
-    res.status(200).json({ success: true });
+    Character.updateMany(
+      {
+        user: userId,
+      },
+      {
+        $pull: {
+          weeklyCharTodo: data,
+        },
+      }
+    ).exec((err, doc) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).json({ todo, index });
+    });
   });
 });
 
@@ -193,6 +204,26 @@ router.post("/updateCharClear", (req, res) => {
   ).exec((err, doc) => {
     if (err) return res.status(400).send(err);
     res.status(200).json({ name, todo, clear: !clear });
+  });
+});
+
+router.post("/updateCharDisabled", (req, res) => {
+  const { name, todo, disabled, userId } = req.body;
+  Character.updateOne(
+    {
+      user: userId,
+      name,
+      "weeklyCharTodo.todo": todo,
+    },
+    {
+      $set: {
+        "weeklyCharTodo.$.disabled": !disabled,
+        "weeklyCharTodo.$.clear": false,
+      },
+    }
+  ).exec((err, doc) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).json({ success: true });
   });
 });
 
