@@ -1,16 +1,5 @@
 @import "../../styles/common.scss";
 
-@mixin item-box($padding, $border-property) {
-  padding: $padding;
-  cursor: pointer;
-  #{$border-property}: 1px solid #e6e6e6;
-  text-align: center;
-
-  &:hover {
-    background: $color-sub;
-  }
-}
-
 .lds-spinner {
   display: block;
   margin: 0 auto;
@@ -49,17 +38,16 @@
     width: 200px;
     height: 150px;
     text-align: center;
+    font-size: 16px;
 
     &__text {
       display: block;
       margin-top: 40px;
-      font-size: 18px;
     }
 
     &__text--font-bold {
       display: block;
       margin-top: 40px;
-      font-size: 18px;
       text-decoration: line-through;
       font-weight: bold;
     }
@@ -90,6 +78,7 @@
       margin-bottom: 20px;
       &__raid-list {
         display: flex;
+        font-size: 15px;
       }
 
       &__raid-item {
@@ -131,7 +120,7 @@
 
           &__raid-item {
             @include item-box(10px, border);
-            font-size: 14px;
+            font-size: 13px;
           }
         }
         &__setting-btn {

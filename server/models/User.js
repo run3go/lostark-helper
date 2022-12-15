@@ -4,52 +4,78 @@ const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
 
-const userSchema = mongoose.Schema(
-  {
-    email: {
-      type: String,
-      required: true,
-      trim: true,
-      lowercase: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      minLength: 7,
-    },
-    role: {
-      type: Number,
-      default: 0,
-    },
-    token: {
-      type: String,
-    },
-    tokenExp: {
-      type: Number,
-    },
-    weeklyExpTodo: {
-      type: Array,
-      default: () => {
-        return [
-          { todo: "도전 어비스 던전", clear: false },
-          { todo: "도전 가디언 레이드", clear: false },
-        ];
-      },
-    },
-    DateToReset: {
-      type: String,
-      default: () => {
-        const dayOfWeek = moment().format("ddd");
-        if (dayOfWeek === "Mon" || dayOfWeek === "Tue") {
-          return moment().hour(10).day(3).toDate().toISOString();
-        }
-        return moment().hour(10).day(10).toDate().toISOString();
-      },
+const userSchema = mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+    minLength: 7,
+  },
+  role: {
+    type: Number,
+    default: 0,
+  },
+  token: {
+    type: String,
+  },
+  tokenExp: {
+    type: Number,
+  },
+  weeklyExpTodo: {
+    type: Array,
+    default: () => {
+      return [
+        { todo: "도전 어비스 던전", clear: false },
+        { todo: "도전 가디언 레이드", clear: false },
+      ];
     },
   },
-  { timestamps: true }
-);
+  DateToReset: {
+    type: String,
+    default: () => {
+      const dayOfWeek = moment().format("ddd");
+      if (dayOfWeek === "Mon" || dayOfWeek === "Tue") {
+        return moment()
+          .hour(6)
+          .minute(0)
+          .second(0)
+          .day(3)
+          .toDate()
+          .toISOString();
+      }
+      return moment()
+        .hour(6)
+        .minute(0)
+        .second(0)
+        .day(10)
+        .toDate()
+        .toISOString();
+    },
+  },
+
+  DateToUpdate: {
+    type: String,
+    default: () =>
+      moment()
+        .hour(6)
+        .minute(0)
+        .second(0)
+        .add(1, "days")
+        .toDate()
+        .toISOString(),
+  },
+
+  updatedAt: {
+    type: String,
+    default: () => moment().toDate().toISOString(),
+  },
+});
 
 userSchema.pre("save", function (next) {
   let user = this;

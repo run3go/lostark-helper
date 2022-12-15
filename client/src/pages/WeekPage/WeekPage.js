@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styles from "./WeekPage.module.scss";
-
+//redux
+import { useDispatch, useSelector } from "react-redux";
 import { addExp, removeExp, setExpClear } from "../../slices/userSlice";
 import {
   addChar,
@@ -10,7 +10,10 @@ import {
   setCharClear,
   setDisabled,
 } from "../../slices/charactersSlice";
-
+//axios
+import axios from "axios";
+import { CHARACTER_SERVER, USER_SERVER } from "../../components/Config";
+//fontAwesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCirclePlus,
@@ -18,9 +21,6 @@ import {
   faCircleXmark,
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
-
-import { CHARACTER_SERVER, USER_SERVER } from "../../components/Config";
-import axios from "axios";
 
 function WeekPage() {
   const dispatch = useDispatch();
@@ -150,16 +150,18 @@ function WeekPage() {
     );
   }
 
-  return (
-    <div className={styles["container"]}>
-      <div className={`${styles["todo-contents"]} ${styles["character-box"]}`}>
-        <h1 className={styles["todo-contents__title"]}>캐릭터</h1>
-        <table>
-          <thead>
-            <tr>
-              <th className={styles["character-box__table-header"]}></th>
-              {isFetched &&
-                characters.info.character.map((el, index) => (
+  if (isFetched) {
+    return (
+      <div className={styles["container"]}>
+        <div
+          className={`${styles["todo-contents"]} ${styles["character-box"]}`}
+        >
+          <h1 className={styles["todo-contents__title"]}>캐릭터</h1>
+          <table>
+            <thead>
+              <tr>
+                <th className={styles["character-box__table-header"]}></th>
+                {characters.info.character.map((el, index) => (
                   <th
                     key={index}
                     className={styles["character-box__table-header"]}
@@ -167,11 +169,10 @@ function WeekPage() {
                     {el.name}
                   </th>
                 ))}
-            </tr>
-          </thead>
-          <tbody>
-            {isFetched &&
-              characters.info.character[0].weeklyCharTodo.map((el, index) => (
+              </tr>
+            </thead>
+            <tbody>
+              {characters.info.character[0].weeklyCharTodo.map((el, index) => (
                 <tr key={index}>
                   <td className={styles["character-box__table-cell-title"]}>
                     {el.todo}
@@ -185,72 +186,72 @@ function WeekPage() {
                       />
                     ) : null}
                   </td>
-                  {isFetched &&
-                    characters.info.character.map((elem) => (
-                      <td
-                        key={elem.name}
-                        className={
-                          elem.weeklyCharTodo[index].disabled
-                            ? styles["character-box__table-cell--disabled"]
-                            : styles["character-box__table-cell"]
-                        }
-                        onClick={
-                          elem.weeklyCharTodo[index].disabled
-                            ? null
-                            : () => {
-                                updateCharClear(
-                                  elem.name,
-                                  elem.weeklyCharTodo[index].todo,
-                                  elem.weeklyCharTodo[index].clear
-                                );
-                              }
-                        }
-                        onContextMenu={(e) => {
-                          e.preventDefault();
-                          updateDisabled(
-                            elem.name,
-                            elem.weeklyCharTodo[index].todo,
-                            elem.weeklyCharTodo[index].disabled,
-                            elem.weeklyCharTodo[index].clear
-                          );
-                        }}
-                      >
-                        {elem.weeklyCharTodo[index].clear ? (
-                          <FontAwesomeIcon icon={faCheck} />
-                        ) : null}
-                      </td>
-                    ))}
+                  {characters.info.character.map((elem) => (
+                    <td
+                      key={elem.name}
+                      className={
+                        elem.weeklyCharTodo[index].disabled
+                          ? styles["character-box__table-cell--disabled"]
+                          : styles["character-box__table-cell"]
+                      }
+                      onClick={
+                        elem.weeklyCharTodo[index].disabled
+                          ? null
+                          : () => {
+                              updateCharClear(
+                                elem.name,
+                                elem.weeklyCharTodo[index].todo,
+                                elem.weeklyCharTodo[index].clear
+                              );
+                            }
+                      }
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                        updateDisabled(
+                          elem.name,
+                          elem.weeklyCharTodo[index].todo,
+                          elem.weeklyCharTodo[index].disabled,
+                          elem.weeklyCharTodo[index].clear
+                        );
+                      }}
+                    >
+                      {elem.weeklyCharTodo[index].clear ? (
+                        <FontAwesomeIcon icon={faCheck} />
+                      ) : null}
+                    </td>
+                  ))}
                 </tr>
               ))}
-          </tbody>
-        </table>
-        <div
-          className={styles["character-box__add-btn-wrap"]}
-          onClick={(e) => {
-            showInputHandler(e.currentTarget);
-          }}
-        >
-          <FontAwesomeIcon
-            className={styles["character-box__add-btn"]}
-            icon={faCirclePlus}
-          />
-          <input
-            className={styles["character-box__add-input"]}
-            type="text"
-            id="todo"
-            onKeyUp={(e) => {
-              if (window.event.keyCode === 13) {
-                addCharTodo(e);
-              }
+            </tbody>
+          </table>
+          <div
+            className={styles["character-box__add-btn-wrap"]}
+            onClick={(e) => {
+              showInputHandler(e.currentTarget);
             }}
-          />
+          >
+            <FontAwesomeIcon
+              className={styles["character-box__add-btn"]}
+              icon={faCirclePlus}
+            />
+            <input
+              className={styles["character-box__add-input"]}
+              type="text"
+              id="todo"
+              onKeyUp={(e) => {
+                if (window.event.keyCode === 13) {
+                  addCharTodo(e);
+                }
+              }}
+            />
+          </div>
         </div>
-      </div>
-      <div className={`${styles["todo-contents"]} ${styles["expedition-box"]}`}>
-        <h1 className={styles["todo-contents__title"]}>원정대</h1>
-        <ul className={styles["expedition-box__list"]}>
-          {isFetched &&
-            user.userData.weeklyExpTodo.map((el, index) => (
+        <div
+          className={`${styles["todo-contents"]} ${styles["expedition-box"]}`}
+        >
+          <h1 className={styles["todo-contents__title"]}>원정대</h1>
+          <ul className={styles["expedition-box__list"]}>
+            {user.userData.weeklyExpTodo.map((el, index) => (
               <li
                 onClick={() => {
                   updateExpClear(el.todo, el.clear, index);
@@ -277,43 +278,44 @@ function WeekPage() {
                 ) : null}
               </li>
             ))}
-          <li
-            className={styles["expedition-box__item"]}
-            onClick={(e) => {
-              showInputHandler(e.currentTarget);
-            }}
-          >
-            <FontAwesomeIcon
-              className={styles["expedition-box__item__add-btn"]}
-              icon={faCirclePlus}
-            />
-            <input
-              className={styles["expedition-box__item__add-input"]}
-              type="text"
-              id="todo"
-              onKeyUp={(e) => {
-                if (window.event.keyCode === 13) {
-                  addExpTodo(e);
-                }
+            <li
+              className={styles["expedition-box__item"]}
+              onClick={(e) => {
+                showInputHandler(e.currentTarget);
               }}
-            />
-          </li>
-        </ul>
+            >
+              <FontAwesomeIcon
+                className={styles["expedition-box__item__add-btn"]}
+                icon={faCirclePlus}
+              />
+              <input
+                className={styles["expedition-box__item__add-input"]}
+                type="text"
+                id="todo"
+                onKeyUp={(e) => {
+                  if (window.event.keyCode === 13) {
+                    addExpTodo(e);
+                  }
+                }}
+              />
+            </li>
+          </ul>
+        </div>
+        <label className={styles["switch"]}>
+          <input
+            id="switch-input"
+            type="checkbox"
+            onClick={ontoggleSetting}
+            className={styles["switch-input"]}
+          />
+          <FontAwesomeIcon
+            className={styles["switch-input__icon"]}
+            icon={faGear}
+          />
+        </label>
       </div>
-      <label className={styles["switch"]}>
-        <input
-          id="switch-input"
-          type="checkbox"
-          onClick={ontoggleSetting}
-          className={styles["switch-input"]}
-        />
-        <FontAwesomeIcon
-          className={styles["switch-input__icon"]}
-          icon={faGear}
-        />
-      </label>
-    </div>
-  );
+    );
+  }
 }
 
 export default WeekPage;

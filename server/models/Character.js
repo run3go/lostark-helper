@@ -19,24 +19,29 @@ const characterSchema = mongoose.Schema({
   },
 
   chaosDungeon: {
-    type: Number,
-    default: 0,
-    max: 100,
+    gauge: {
+      type: Number,
+      default: 0,
+    },
+    clear: {
+      type: Number,
+      default: 0,
+    },
   },
 
   guardianRaid: {
-    type: Number,
-    default: 0,
-    max: 100,
+    gauge: {
+      type: Number,
+      default: 0,
+    },
+    clear: {
+      type: Number,
+      default: 0,
+    },
   },
 
   regionRaid: {
     type: Array,
-  },
-
-  updatedAt: {
-    type: String,
-    default: () => moment().toDate(),
   },
 
   weeklyCharTodo: {
@@ -85,21 +90,6 @@ characterSchema.pre("save", function (next) {
   }
 });
 
-let setDate = (req, res, next) => {
-  const { userId } = req.body;
-  Character.updateMany(
-    { user: userId },
-    {
-      $set: {
-        updatedAt: moment().toDate(),
-      },
-    }
-  ).exec((err, user) => {
-    if (err) throw err;
-  });
-  next();
-};
-
 const Character = mongoose.model("Character", characterSchema);
 
-module.exports = { Character, setDate };
+module.exports = { Character };

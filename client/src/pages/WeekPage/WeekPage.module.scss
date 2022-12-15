@@ -1,17 +1,5 @@
 @import "../../styles/common.scss";
 
-@mixin item-box($padding, $border-property) {
-  position: relative;
-  padding: $padding;
-  cursor: pointer;
-  #{$border-property}: 1px solid #e6e6e6;
-  text-align: center;
-
-  &:hover {
-    background: $color-sub;
-  }
-}
-
 @mixin table-cell() {
   width: 200px;
   padding: 25px 5px;
@@ -124,8 +112,6 @@
 
   .expedition-box {
     width: 200px;
-    &__list {
-    }
 
     &__item--active {
       @include item-box(20px, border-bottom);

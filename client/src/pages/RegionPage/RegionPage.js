@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
+import styles from "./RegionPage.module.scss";
+//redux
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCharacters,
   setRaidClear,
   setRegion,
 } from "../../slices/charactersSlice";
-import styles from "./RegionPage.module.scss";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
+//axios
 import axios from "axios";
 import { CHARACTER_SERVER } from "../../components/Config";
+//fontAwesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGear } from "@fortawesome/free-solid-svg-icons";
+
 function RegionPage() {
   const dispatch = useDispatch();
   const characters = useSelector((state) => state.characters);
@@ -26,6 +29,14 @@ function RegionPage() {
     { id: 3, name: "아브렐슈드" },
     { id: 4, name: "일리아칸" },
   ];
+
+  useEffect(() => {
+    //캐릭터 정보 가져옴
+    const dataToSubmit = { userId };
+    dispatch(getCharacters(dataToSubmit)).then((res) => {
+      setIsFetched(true);
+    });
+  }, [dispatch, userId]);
 
   //군단장 변경 창 on/off
   const showHandler = (e) => {
@@ -130,14 +141,6 @@ function RegionPage() {
     );
   };
 
-  useEffect(() => {
-    //캐릭터 정보 가져옴
-    const dataToSubmit = { userId };
-    dispatch(getCharacters(dataToSubmit)).then((res) => {
-      setIsFetched(true);
-    });
-  }, [dispatch, userId]);
-
   //로딩 화면
   if (characters.loading) {
     return (
@@ -157,27 +160,27 @@ function RegionPage() {
       </div>
     );
   }
-  return (
-    <div className={styles["container"]}>
-      <div
-        className={`${styles["todo-contents"]} ${styles["total-clear-box"]}`}
-      >
-        <h1 className={styles["todo-contents__title"]}>총합</h1>
-        {isFetched && getTotalClear()}
-      </div>
-      <div className={`${styles["todo-contents"]} ${styles["region-box"]}`}>
-        <h1 className={styles["todo-contents__title"]}>군단장</h1>
-        {isFetched && (
+
+  if (isFetched) {
+    return (
+      <div className={styles["container"]}>
+        <div
+          className={`${styles["todo-contents"]} ${styles["total-clear-box"]}`}
+        >
+          <h1 className={styles["todo-contents__title"]}>총합</h1>
+          {getTotalClear()}
+        </div>
+        <div className={`${styles["todo-contents"]} ${styles["region-box"]}`}>
+          <h1 className={styles["todo-contents__title"]}>군단장</h1>
+
           <ul className={styles["region-box__list"]}>
             {regionList.map((region) => {
               return getRegionClear(region.name);
             })}
           </ul>
-        )}
-      </div>
-      <ul className={styles["character-wrap"]}>
-        {isFetched &&
-          characters.info.character.map((character, charIndex) => (
+        </div>
+        <ul className={styles["character-wrap"]}>
+          {characters.info.character.map((character, charIndex) => (
             <li
               key={charIndex}
               className={`${styles["character-box"]} ${styles["todo-contents"]}`}
@@ -311,21 +314,22 @@ function RegionPage() {
               </ul>
             </li>
           ))}
-      </ul>
-      <label className={styles["switch"]}>
-        <input
-          id="switch-input"
-          type="checkbox"
-          onClick={ontoggleSetting}
-          className={styles["switch-input"]}
-        />
-        <FontAwesomeIcon
-          className={styles["switch-input__icon"]}
-          icon={faGear}
-        />
-      </label>
-    </div>
-  );
+        </ul>
+        <label className={styles["switch"]}>
+          <input
+            id="switch-input"
+            type="checkbox"
+            onClick={ontoggleSetting}
+            className={styles["switch-input"]}
+          />
+          <FontAwesomeIcon
+            className={styles["switch-input__icon"]}
+            icon={faGear}
+          />
+        </label>
+      </div>
+    );
+  }
 }
 
 export default RegionPage;
